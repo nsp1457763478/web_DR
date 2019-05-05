@@ -1,0 +1,839 @@
+//aws大数据平台助手
+//作者：齐泽西
+//日期：2018-05-14
+//remark：主要负责一些大批量埋点实现自动化问题
+
+function AwsHelper() {
+	var maxt = 60000; // 最大等待时间60秒
+	var _this = this;
+
+	this._init = function(timestamp) {
+		if (timestamp > maxt) {
+			return;
+		}
+		if (!_this.isLoaded()) {
+			window.requestAnimationFrame(_this._init);
+		}
+		else {
+			//PC端
+			_this.AddCart('.to_shopcart', 'DarryRing-PC'); //加入购物车埋点
+			_this.OrderPay('.pay_now .link_btn3', 'DarryRing-PC'); //结算事件
+			if (location.host == 'www.darryring.com') {
+				_this.ExpectedPrice('#expectChange', 'DarryRing-PC'); //预期价位
+				_this.ChangeBetch('#changeChooseBtn', 'DarryRing-PC'); //换一批次
+				_this.ResetBetch('#expectReset', 'DarryRing-PC'); //重置批次
+				_this.SelectMainStones('#main-stones', 'DarryRing-PC'); //主钻的选择
+				if (location.pathname.indexOf('/search/list') != -1) {
+					_this.SearchMainStonesPC('.searchCenterList', 'DarryRing-PC'); //高级搜索
+					_this.SearchMainStonesPCType('.tab_list', 'DarryRing-PC'); //高级搜索(类型搜索)
+				}
+			}
+			//WAP端
+			_this.AddCart('.joinshop', 'DarryRing-WAP');//加入购物车埋点
+			_this.OrderPay('#pay-post', 'DarryRing-WAP'); //结算事件
+			_this.Carmera('.carmera', 'DarryRing-WAP'); //拍照上传
+			_this.CreatePic('.cf_guide', 'DarryRing-WAP'); //生成图片
+			_this.LongPress('.cf_resultView', 'DarryRing-WAP'); //长按保存图片
+			_this.ShareClick('.nt_toShare', 'DarryRing-WAP'); //分享总按钮
+			_this.Share('.drShareWx', 'DarryRing-WAP'); //微信分享
+			_this.Share('.drShareWb', 'DarryRing-WAP'); //微博分享
+			_this.H5Pager('.swiper-slide', 'DarryRing-WAP'); //h5滑屏监控
+			_this.StoryTap('.bbsLT_Scroll', 'DarryRing-WAP'); //DR情感社区-DR故事-标签点击埋点
+			_this.StoryPulish('.publishedArticle-btn', 'DarryRing-WAP'); //社区情感社区-DR故事-发表话题
+			_this.MagpieOpen('.PlayVideo1', 'DarryRing-WAP'); //七夕活动H5-open效果
+			_this.MagpieWrite('.promptly-write', 'DarryRing-WAP'); //七夕活动H5-马上填写效果
+			_this.MagpieSubmit('.userSure', 'DarryRing-WAP');//七夕活动H5-确认提交
+			_this.MagpieLottery('.goLottery', 'DarryRing-WAP');//我要抽奖
+			_this.MagpieShare('.shareFriends', 'DarryRing-WAP');//我要分享
+			_this.MagpieHelp('.ruleA', 'DarryRing-WAP');//活动锦囊
+			_this.MagpieHelpTag('.Tc-rule', 'DarryRing-WAP');//活动锦囊标签点击
+			_this.ButtomPlus('#showFixedView', 'DarryRing-WAP');//底部+按钮的点击
+			_this.DrTryH5('.toScreen-btn', 'DarryRing-WAP'); //3D试戴，找到你的心动之选
+			_this.DrH5Star('.luckyDrawBtn', 'DarryRing-WAP'); //拯救DR星_DR钻戒H5游戏
+			if (location.host == 'm.darryring.com') {
+				_this.ExpectedPrice('#expectChange', 'DarryRing-WAP'); //预期价位
+				_this.ChangeBetch('#changeChooseBtn', 'DarryRing-WAP'); //换一批次
+				_this.ResetBetch('#expectReset', 'DarryRing-WAP'); //重置批次
+				_this.SelectMainStones('#main-stones', 'DarryRing-WAP'); //主钻的选择
+				if (location.pathname.indexOf('/search/list') != -1) {
+					_this.SearchMainStonesWAP('.search_list', 'DarryRing-WAP'); //高级搜索
+				}
+			}
+			//m.story-mark.com端
+			if (location.host == 'm.story-mark.com') {
+				_this.onlinezx('.cosqkfli', 'DarryRing-MARK');//在线咨询
+			}
+		}
+	}
+	
+	//加入购物车埋点
+	//sitem 选取目标的对象
+	//account 账号信息
+	this.AddCart = function(sitem, account) {
+		if (!_this.isLoaded()) {
+			return false;
+		}
+		var obj = document.querySelector(sitem);
+		if (!obj) {
+			return false;
+		}
+		obj.addEventListener('click', function(){
+			_dr.init({'account': account, 'event': 'addcart', 'desc': '加入购物车点击事件'});
+		}, false);
+	}
+
+	//订单结算(支付)埋点
+	//sitem 选取目标的对象
+	//account 账号信息
+	this.OrderPay = function(sitem, account) {
+		if (!_this.isLoaded()) {
+			return false;
+		}
+		var obj = document.querySelector(sitem);
+		if (!obj) {
+			return false;
+		}
+		obj.addEventListener('click', function(){
+			_dr.init({'account': account, 'event': 'orderpay', 'desc': '订单结算点击事件'});
+		}, false);
+	}
+	
+	//拍照上传
+	//sitem 选取目标的对象
+	//account 账号信息
+	this.Carmera = function(sitem, account) {
+		if (!_this.isLoaded()) {
+			return false;
+		}
+		var obj = document.querySelector(sitem);
+		if (!obj) {
+			return false;
+		}
+		obj.addEventListener('touchstart', function(){
+			_dr.init({'account': account, 'event': 'carmera', 'desc': '拍照上传点击事件'});
+		}, false);
+	}
+
+	//生成图片
+	//sitem 选取目标的对象
+	//account 账号信息
+	this.CreatePic = function(sitem, account) {
+		if (!_this.isLoaded()) {
+			return false;
+		}
+		var obj = document.querySelector(sitem);
+		if (!obj) {
+			return false;
+		}
+		var t = null;
+		t = setInterval(function(){
+			if (document.querySelector(sitem).style.display == 'block') {
+				_dr.init({'account': account, 'event': 'createpic', 'desc': '生成图片事件'});
+				clearInterval(t);
+			}
+		}, 17);
+	}
+
+	//长按保存
+	//sitem 选取目标的对象
+	//account 账号信息
+	this.LongPress = function(sitem, account) {
+		if (!_this.isLoaded()) {
+			return false;
+		}
+		var obj = document.querySelector(sitem);
+		if (!obj) {
+			return false;
+		}
+		var t = null;
+		obj.addEventListener('touchstart', function(){
+			t = setTimeout(function(){
+				_dr.init({'account': account, 'event': 'savepic', 'desc': '长按保存图片事件'});
+			}, 1000);
+		}, false);
+		obj.addEventListener('touchend', function(){
+			clearTimeout(t);
+		}, false);
+	}
+
+	//分享
+	//sitem 选取目标的对象
+	//account 账号信息
+	this.Share = function(sitem, account) {
+		if (!_this.isLoaded()) {
+			return false;
+		}
+		var obj = document.querySelector(sitem);
+		if (!obj) {
+			return false;
+		}
+		obj.addEventListener('touchstart', function(){
+			_dr.init({'account': account, 'event': 'share', 'desc': '分享事件'});
+		}, false);
+	}
+	
+	//分享click
+	//sitem 选取目标的对象
+	//account 账号信息
+	this.ShareClick = function(sitem, account) {
+		if (!_this.isLoaded()) {
+			return false;
+		}
+		var obj = document.querySelector(sitem);
+		if (!obj) {
+			return false;
+		}
+		obj.addEventListener('click', function(){
+			_dr.init({'account': account, 'event': 'share', 'desc': '分享事件'});
+		}, false);
+	}
+
+	//h5滑屏监控
+	//sitem 选取目标的对象
+	//citem 子目标对象
+	//account 账号信息
+	this.H5Pager = function(sitem, account) {
+		if (!_this.isLoaded()) {
+			return false;
+		}
+		var obj = document.querySelectorAll(sitem);
+		if (!obj) {
+			return false;
+		}
+
+		var istouch = false;
+		document.addEventListener('touchstart', function(){istouch = true;}, false);
+		document.addEventListener('touchend', function(){istouch = false;}, false);
+
+		var that = this;
+		function do_h5() {
+			if (!istouch) { //防止自动滚动效果带来的影响
+				window.requestAnimationFrame(do_h5);
+				return false;
+			} else {
+				if (!that.h5_page_index) {
+					that.h5_page_index = 0;
+				}
+				var findex = 0;
+				var isfound = false;
+				for (var i = 0; i < obj.length; i++) {
+					var classname = obj[i].className;
+					if (classname) {
+						arr = classname.split(' ');
+						for (var j = 0; j < arr.length; j++) {
+							if (arr[j] == 'swiper-slide-active') {
+								isfound = true;
+								break;
+							}
+						}
+						if (isfound) {
+							findex = i;
+							break;
+						}
+					}
+				}
+				if (isfound && findex != that.h5_page_index) {
+					that.h5_page_index = findex;
+					_dr.init({'account': account, 'event': 'pageview', 'desc': 'H5滑屏翻页,'+that.h5_page_index+','+(new Date().getTime())});
+				}
+				window.requestAnimationFrame(do_h5);
+			}
+		}
+		try{
+		window.requestAnimationFrame(do_h5);
+		}catch(e){
+		}
+	}
+
+	//预期价位搜索按钮事件
+	this.ExpectedPrice = function(sitem, account) {
+		if (!_this.isLoaded()) {
+			return false;
+		}
+		var obj = document.querySelector(sitem);
+		if (!obj) {
+			return false;
+		}
+		var that = this;
+		if (!that.isExpSend) {
+			that.isExpSend = true;
+		} else {
+			return false;
+		}
+		obj.addEventListener('click', function(){
+			var pobj = document.querySelector('#expectPrice');
+			var price = 0.00;
+			if (pobj) {
+				price = pobj.value;
+				if (price == "") {
+					price = 0.00;
+				}
+			}
+			_dr.init({'account': account, 'event': 'expected_price', 'desc': '预期价位,'+price+','+(new Date().getTime())});
+			that.isExpSend = false;
+		}, false);
+	}
+
+	//换一批按钮事件
+	this.ChangeBetch = function(sitem, account) {
+		if (!_this.isLoaded()) {
+			return false;
+		}
+		var obj = document.querySelector(sitem);
+		if (!obj) {
+			return false;
+		}
+		var that = this;
+		if (!that.isCgSend) {
+			that.isCgSend = true;
+		} else {
+			return false;
+		}
+		obj.addEventListener('click', function(){
+			_dr.init({'account': account, 'event': 'changebetch', 'desc': '换一批,'+(new Date().getTime())});
+			that.isCgSend = false;
+		}, false);
+	}
+
+	//重置按钮事件
+	this.ResetBetch = function(sitem, account) {
+		if (!_this.isLoaded()) {
+			return false;
+		}
+		var obj = document.querySelector(sitem);
+		if (!obj) {
+			return false;
+		}
+		var that = this;
+		if (!that.isRbSend) {
+			that.isRbSend = true;
+		} else {
+			return false;
+		}
+		obj.addEventListener('click', function(){
+			_dr.init({'account': account, 'event': 'resetbetch', 'desc': '重置检索,'+(new Date().getTime())});
+			that.isRbSend = false;
+		}, false);
+	}
+	
+	//主钻的选择
+	this.SelectMainStones = function(sitem, account) {
+		if (!_this.isLoaded()) {
+			return false;
+		}
+		var obj = document.querySelector(sitem);
+		if (!obj) {
+			return false;
+		}
+		var that = this;
+		if (!that.isSelMsSend) {
+			that.isSelMsSend = true;
+		} else {
+			return false;
+		}
+		obj.addEventListener('click', function(ev){
+			var ev = ev || window.event;
+            var target = ev.target || ev.srcElement;
+            if(target.getAttribute('data-info')){
+                var hot = "";
+            	if (target.children.length >= 1) {
+            		if (target.children[0].innerHTML.indexOf('hot.png') != -1) {
+            			hot = "hot";
+            		} else if (target.innerHTML.indexOf('hot.png') != -1) {
+            			hot = "hot";
+            		}
+            	}
+            	if (hot == "") {
+            		_dr.init({'account': account, 'event': 'select_mainstones', 'desc': '主钻点击,'+target.innerText+','+(new Date().getTime())});
+            	} else {
+            		_dr.init({'account': account, 'event': 'select_mainstones', 'desc': '主钻点击,'+target.innerText+',hot,'+(new Date().getTime())});
+            	}
+            }
+			that.isSelMsSend = false;
+		}, false);
+	}
+	
+	//高级定制检索条件PC
+	this.SearchMainStonesPC = function(sitem, account) {
+		if (!_this.isLoaded()) {
+			return false;
+		}
+		var obj = document.querySelector(sitem);
+		if (!obj) {
+			return false;
+		}
+
+		var old_data_str = '';
+		var data =[];
+		data[0] = {'name': '钻石重量', 'value': ''};
+		data[1] = {'name': '价格', 'value': ''};
+		data[2] = {'name': '钻石颜色', 'value': ''};
+		data[3] = {'name': '钻石对称', 'value': ''};
+		data[4] = {'name': '钻石净度', 'value': ''};
+		data[5] = {'name': '钻石抛光', 'value': ''};
+		data[6] = {'name': '钻石切工', 'value': ''};
+		data[7] = {'name': '戒托材质', 'value': ''};
+		data[8] = {'name': '钻石荧光', 'value': ''};
+		data[9] = {'name': '商品状态', 'value': ''};
+
+		function getsearch(sdata) {
+			//钻石重量
+			var mind = document.querySelector('#minDiamond').value;
+			var maxd = document.querySelector('#maxDiamond').value;
+			if (mind && maxd) {
+				sdata[0].value = mind + '-' + maxd;
+			} else if (mind) {
+				sdata[0].value = mind + '-∞';
+			} else if (maxd) {
+				sdata[0].value = 0 + '-' + maxd;
+			} else {
+				sdata[0].value = '';
+			}
+			//价格
+			var minm = document.querySelector('#minMoney').value;
+			var maxm = document.querySelector('#maxMoney').value;
+			if (minm && maxm) {
+				sdata[1].value = minm + '-' + maxm;
+			} else if (minm) {
+				sdata[1].value = minm + '-∞';
+			} else if (maxm) {
+				sdata[1].value = 0 + '-' + maxm;
+			} else {
+				sdata[1].value = '';
+			}
+			//钻石颜色
+			sdata[2].value = getValues('.searchColor');
+			//钻石对称
+			sdata[3].value = getValues('.searchSymm');
+			//钻石净度
+			sdata[4].value = getValues('.searchClean');
+			//钻石抛光
+			sdata[5].value = getValues('.searchPoli');
+			//钻石切工
+			sdata[6].value = getValues('.searchCut');
+			//戒托材质
+			sdata[7].value = getValues('.searchSpecial');
+			//钻石荧光
+			sdata[8].value = getValues('.searchFluo');
+			//商品状态
+			sdata[9].value = getValues('.searchFour');
+
+			return sdata;
+		}
+		function getValues(tmpitem) {
+			var objs = document.querySelectorAll(tmpitem+' .active');
+			if (objs && objs.length > 0) {
+				var c_str = '';
+				for (var i = 0; i < objs.length; i++) {
+					c_str += c_str == '' ? objs[i].innerText : '-'+objs[i].innerText;
+				}
+				return c_str;
+			}
+			return '';
+		}
+		function map2string(sdata) {
+			sdata = getsearch(sdata);
+			var str = '';
+			for (var i = 0 ; i < sdata.length; i++) {
+				str += str == '' ? sdata[i].name+"="+sdata[i].value : ';' + sdata[i].name+"="+sdata[i].value;
+			}
+			return str;
+		}
+		function Send() {
+			var data_str = map2string(data);
+			if (old_data_str != data_str) {
+				old_data_str = data_str;
+				_dr.init({'account': account, 'event': 'search_mainstones', 'desc': '高级定制,'+old_data_str+','+(new Date().getTime())});
+			}
+			window.requestAnimationFrame(Send);
+		}
+		try{
+		window.requestAnimationFrame(Send);
+		}catch(e){
+		}
+	}
+	
+	//高级定制搜索类型
+	this.SearchMainStonesPCType = function(sitem, account) {
+		if (!_this.isLoaded()) {
+			return false;
+		}
+		var obj = document.querySelector(sitem);
+		if (!obj) {
+			return false;
+		}
+		var lis = obj.querySelectorAll('li');
+		if (!lis || lis.length < 2) {
+			return false;
+		}
+		lis[0].addEventListener('click', function(){
+			_dr.init({'account': account, 'event': 'gaoding_kucun', 'desc': '高级定制-库存搜索'+(new Date().getTime())});
+		}, false);
+		lis[1].addEventListener('click', function(){
+			_dr.init({'account': account, 'event': 'gaoding_dingzhi', 'desc': '高级定制-定制搜索'+(new Date().getTime())});
+		}, false);
+	}
+	
+	//高级定制检索条件WAP
+	this.SearchMainStonesWAP = function(sitem, account) {
+		if (!_this.isLoaded()) {
+			return false;
+		}
+		var obj = document.querySelector(sitem);
+		if (!obj) {
+			return false;
+		}
+
+		var old_data_str = '';
+		var data =[];
+		data[0] = {'name': '钻石重量', 'value': ''};
+		data[1] = {'name': '价格', 'value': ''};
+		data[2] = {'name': '钻石颜色', 'value': ''};
+		data[3] = {'name': '钻石对称', 'value': ''};
+		data[4] = {'name': '钻石净度', 'value': ''};
+		data[5] = {'name': '钻石抛光', 'value': ''};
+		data[6] = {'name': '钻石切工', 'value': ''};
+		data[7] = {'name': '戒托材质', 'value': ''};
+		data[8] = {'name': '钻石荧光', 'value': ''};
+		data[9] = {'name': '商品状态', 'value': ''};
+
+		function getsearch(sdata) {
+			//钻石重量
+			if (document.querySelector('.weight Diamonds_click')) {
+				sdata[0].value = document.querySelector('.weight Diamonds_click').innerTex;
+			} else {
+				var mind = document.querySelector('#weightLow').value;
+				var maxd = document.querySelector('#weightHigh').value;
+				if (mind && maxd) {
+					sdata[0].value = mind + '-' + maxd;
+				} else if (mind) {
+					sdata[0].value = mind + '-∞';
+				} else if (maxd) {
+					sdata[0].value = 0 + '-' + maxd;
+				} else {
+					sdata[0].value = '';
+				}
+			}
+			//价格
+			if (document.querySelector('.price Diamonds_click')) {
+				 sdata[1].value = document.querySelector('.weight Diamonds_click').innerTex;
+			} else {
+				var minm = document.querySelector('.price1').value;
+				var maxm = document.querySelector('.price2').value;
+				if (minm && maxm) {
+					sdata[1].value = minm + '-' + maxm;
+				} else if (minm) {
+					sdata[1].value = minm + '-∞';
+				} else if (maxm) {
+					sdata[1].value = 0 + '-' + maxm;
+				} else {
+					sdata[1].value = '';
+				}
+			}
+			//钻石颜色
+			sdata[2].value = getValues('.color');
+			if (sdata[2].value == '') {
+				sdata[2].value = getValues('.search_sec');
+			}
+			//钻石对称
+			sdata[3].value = getValues('.symmetry');
+			//钻石净度
+			sdata[4].value = getValues('.clarity');
+			if (sdata[4].value == '') {
+				sdata[4].value = getValues('.search_third');
+			}
+			//钻石抛光
+			sdata[5].value = getValues('.polishing');
+			//钻石切工
+			sdata[6].value = getValues('.cut');
+			//戒托材质
+			sdata[7].value = getValues('.material');
+			//钻石荧光
+			sdata[8].value = getValues('.searchFluo');
+			if (sdata[8].value == '') {
+				sdata[8].value = getValues('.search_firs');
+			}
+			//商品状态
+			sdata[9].value = getValues('.search_four');
+
+			return sdata;
+		}
+		function getValues(tmpitem) {
+			var objs = document.querySelectorAll(tmpitem+' .Diamonds_click');
+			if (objs && objs.length > 0) {
+				var c_str = '';
+				for (var i = 0; i < objs.length; i++) {
+					c_str += c_str == '' ? objs[i].innerText : '-'+objs[i].innerText;
+				}
+				return c_str;
+			}
+			return '';
+		}
+		function map2string(sdata) {
+			sdata = getsearch(sdata);
+			var str = '';
+			for (var i = 0 ; i < sdata.length; i++) {
+				str += str == '' ? sdata[i].name+"="+sdata[i].value : ';' + sdata[i].name+"="+sdata[i].value;
+			}
+			return str;
+		}
+		function Send() {
+			var data_str = map2string(data);
+			if (old_data_str != data_str) {
+				old_data_str = data_str;
+				_dr.init({'account': account, 'event': 'search_mainstones', 'desc': '高级定制,'+old_data_str+','+(new Date().getTime())});
+			}
+			window.requestAnimationFrame(Send);
+		}
+		try{
+		window.requestAnimationFrame(Send);
+		}catch(e){
+		}
+	}
+
+	//社区情感社区-DR故事标签的点击
+	this.StoryTap = function(sitem, account) {
+		if (!_this.isLoaded()) {
+			return false;
+		}
+		var obj = document.querySelector(sitem);
+		if (!obj) {
+			return false;
+		}
+
+		obj.addEventListener('click', function(ev){
+			var ev = ev || window.event;
+			var target = ev.target || ev.srcElement;
+			if (target.getAttribute('data-info') === null && target.parentNode.getAttribute('data-info') === null) {
+				return false;
+			}
+			var tapid = target.getAttribute('data-info') || target.parentNode.getAttribute('data-info');
+			tapid = parseInt(tapid) || 0;
+			_dr.init({'account': 'Darryring-WAP', 'event': 'wap-story-'+tapid, 'desc': '标签ID,'+tapid+','+(new Date().getTime())});
+		}, false);
+	}
+
+	//社区情感社区-DR故事-发表话题
+	this.StoryPulish = function(sitem, account) {
+		if (!_this.isLoaded()) {
+			return false;
+		}
+		var obj = document.querySelector(sitem);
+		if (!obj) {
+			return false;
+		}
+
+		obj.addEventListener('click', function(ev){
+			_dr.init({'account': 'Darryring-WAP', 'event': 'wap-story-pulish', 'desc': '发布话题,'+(new Date().getTime())});
+		}, false);
+	}
+
+	//七夕活动H5-open事件
+	this.MagpieOpen = function(sitem, account) {
+		if (!_this.isLoaded()) {
+			return false;
+		}
+		var obj = document.querySelector(sitem);
+		if (!obj) {
+			return false;
+		}
+		obj.addEventListener('click', function(){
+			_dr.init({'account': account, 'event': 'magpie_open', 'desc': ''});
+		}, false);
+	}
+
+	//七夕活动H5-马上填写事件
+	this.MagpieWrite = function(sitem, account) {
+		if (!_this.isLoaded()) {
+			return false;
+		}
+		var obj = document.querySelector(sitem);
+		if (!obj) {
+			return false;
+		}
+		obj.addEventListener('click', function(){
+			_dr.init({'account': account, 'event': 'magpie_write', 'desc': ''});
+		}, false);
+	}
+
+	//七夕活动H5-马上确认提交事件
+	this.MagpieSubmit = function(sitem, account) {
+		if (!_this.isLoaded()) {
+			return false;
+		}
+		var obj = document.querySelector(sitem);
+		if (!obj) {
+			return false;
+		}
+		obj.addEventListener('click', function(){
+			_dr.init({'account': account, 'event': 'magpie_submit', 'desc': ''});
+		}, false);
+	}
+
+	//七夕活动H5-我要抽奖事件
+	this.MagpieLottery = function(sitem, account) {
+		if (!_this.isLoaded()) {
+			return false;
+		}
+		var obj = document.querySelector(sitem);
+		if (!obj) {
+			return false;
+		}
+		obj.addEventListener('click', function(){
+			_dr.init({'account': account, 'event': 'magpie_lottery', 'desc': ''});
+		}, false);
+	}
+
+	//七夕活动H5-我要分享事件
+	this.MagpieShare = function(sitem, account) {
+		if (!_this.isLoaded()) {
+			return false;
+		}
+		var obj = document.querySelector(sitem);
+		if (!obj) {
+			return false;
+		}
+		obj.addEventListener('click', function(){
+			_dr.init({'account': account, 'event': 'magpie_share', 'desc': ''});
+		}, false);
+	}
+
+	//七夕活动H5-活动锦囊事件
+	this.MagpieHelp = function(sitem, account) {
+		if (!_this.isLoaded()) {
+			return false;
+		}
+		var obj = document.querySelector(sitem);
+		if (!obj) {
+			return false;
+		}
+		obj.addEventListener('click', function(){
+			_dr.init({'account': account, 'event': 'magpie_help', 'desc': ''});
+		}, false);
+	}
+
+	//七夕活动H5-活动锦囊-里面的标签点击
+	this.MagpieHelpTag = function(sitem, account) {
+		if (!_this.isLoaded()) {
+			return false;
+		}
+		var obj = document.querySelector(sitem);
+		if (!obj) {
+			return false;
+		}
+		obj.addEventListener('click', function(ev){
+			var target = ev.target || ev.srcElement;
+			var active = target.getAttribute('class');
+			var ali = document.querySelectorAll('ul li');
+			var index = 0;
+			for (var i = 0; i < ali.length; i++) {
+				if (ali[i].getAttribute('class').indexOf('active') != -1) {
+					index = (i + 1);
+					break;
+				}
+			}
+			_dr.init({'account': account, 'event': 'magpie_help_tag-'+index, 'desc': ''});
+		}, false);
+	}
+	
+	//底部+按钮的点击
+	this.ButtomPlus = function(sitem, account) {
+		if (!_this.isLoaded()) {
+			return false;
+		}
+		var obj = document.querySelector(sitem);
+		if (!obj) {
+			return false;
+		}
+		obj.addEventListener('tap', function(ev){
+			_dr.init({'account': account, 'event': 'buttomplus', 'desc': ''});
+		}, false);
+	}
+
+	//3D试戴，找到你的心动之选
+	this.DrTryH5 = function(sitem, account) {
+		if (!_this.isLoaded()) {
+			return false;
+		}
+		var obj = document.querySelector(sitem);
+		if (!obj) {
+			return false;
+		}
+		obj.addEventListener('tap', function(ev){
+			//钻石ID
+			var obj = document.querySelector('.ringStyle-swiper-wrap .swiper-container .swiper-wrapper div a.cur');
+			if (!obj) {
+				return;
+			}
+			var goods_id = obj.getAttribute('data-info');
+			if (!goods_id || goods_id == '') {
+				return;
+			}
+			//钻石大小
+			var obj1 = document.querySelector('.ringSize-swiper-wrap .swiper-container .swiper-wrapper div a.cur');
+			if (!obj1) {
+				return;
+			}
+			var goods_size = obj1.innerText.replace(/(\s|\r|\n|\")/ig, '');
+			if (!goods_size || goods_size == '') {
+				return;
+			}
+
+			var estr = '-'+goods_id+','+goods_size;
+
+			_dr.init({'account': account, 'event': 'drtryh5'+estr, 'desc': ''});
+		}, false);
+	}
+
+	//拯救DR星_DR钻戒H5游戏
+	var drh5star_nums = 0;
+	this.DrH5Star = function(sitem, account) {
+		if (!_this.isLoaded()) {
+			return false;
+		}
+		var obj = document.querySelector(sitem);
+		if (!obj) {
+			return false;
+		}
+		drh5star_nums++; 
+		obj.addEventListener('click', function(ev){
+			_dr.init({'account': account, 'event': 'drh5star-'+drh5star_nums, 'desc': ''});
+		}, false);
+	}
+	
+	//在线咨询
+	this.onlinezx = function(sitem, account) {
+		if (!_this.isLoaded()) {
+			return false;
+		}
+		var objs = document.querySelectorAll(sitem);
+		if (!objs || objs.length <= 0) {
+			return false;
+		}
+		for (var i = 0; i < objs.length; i++) {
+			var obj = objs[i];
+			obj.addEventListener('click', function(ev){
+				_dr.init({'account': account, 'event': 'onlinezx', 'desc': ''});
+			}, false);
+		}
+	}
+
+	//$和_dr是否加载完成检查
+	this.isLoaded = function() {
+		//等待js,img等都加载完成，不然某些追加的事件会被覆盖掉
+		if (typeof(document.readyState) != 'undefined' && document.readyState == 'complete' 
+			&& typeof(_dr) != 'undefined') {
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
+
+	return _this;
+}
+var awsHelper = new AwsHelper();
+try{
+window.requestAnimationFrame(awsHelper._init);
+}catch(e){
+}

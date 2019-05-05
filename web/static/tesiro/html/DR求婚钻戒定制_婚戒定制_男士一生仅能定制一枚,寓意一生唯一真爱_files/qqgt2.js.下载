@@ -1,0 +1,72 @@
+//腾讯广点通，咨询数据的上报
+var QQgt2 = function() {
+	var _this = this;
+	this.send = function () {
+		var uarr = _this.parseURL(location.href);
+		if (!uarr || !uarr.query) {
+			return
+		}
+		var query = _this.parseQuery(uarr.query);
+		if (!query || !query.qz_gdt) {
+			return
+		}
+		var click_id = query.qz_gdt;
+		var nurl = uarr.protocol + '://' + uarr.host + uarr.path;
+		
+		var img = new Image(1, 1); 
+    	img.src = '//passport.darryring.com/qqgt2_uploaduseract?click_id=' + click_id + "&url=" + nurl;
+	}
+	
+	//解析url信息
+	this.parseURL = function(url) {
+		var a =  document.createElement('a');  
+		a.href = url;  
+		return {  
+			source: url,  
+			protocol: a.protocol.replace(':', ''),  
+			host: a.hostname,  
+			port: a.port,  
+			query: a.search,  
+			params: (function(){  
+				var ret = {},  
+					seg = a.search.replace(/^\?/,'').split('&'),  
+					len = seg.length, i = 0, s;  
+				for (; i<len; i++) {  
+					if (!seg[i]) { continue; }  
+					s = seg[i].split('=');  
+					ret[s[0]] = s[1];  
+				}  
+				return ret;  
+			})(),  
+			file: (a.pathname.match(/\/([^\/?#]+)$/i) || [,''])[1],  
+			hash: a.hash.replace('#',''),  
+			path: a.pathname.replace(/^([^\/])/,'/$1'),  
+			relative: (a.href.match(/tps?:\/\/[^\/]+(.+)/) || [,''])[1],  
+			segments: a.pathname.replace(/^\//,'').split('/')  
+		};
+	}
+	
+	//http query 解析key value形式
+	//query 请求的参数字符串
+	this.parseQuery = function (query) {
+		if (query == '') {
+			return new Object();
+		}
+		//去掉?
+		query = query.replace('?', '');
+		//分解参数
+		qarr = query.split('&');
+		//以key-value形式保存
+		var params = new Object();
+		var tmparr = [];
+		var key = '';
+		for (var i = 0; i < qarr.length; i++) {
+			tmparr = qarr[i].split('=');
+			key = tmparr[0];
+			params[key] = decodeURIComponent(tmparr[1]);
+		}
+		
+		return params;
+	}
+}
+new QQgt2().send();
