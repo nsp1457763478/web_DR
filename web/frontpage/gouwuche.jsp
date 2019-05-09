@@ -18,12 +18,12 @@
 </head>
 <body>
 <!-- start header -->
-<jsp:include page="../frontpage/head/header.jsp"/>
+<%--<jsp:include page="../frontpage/head/header.jsp"/>--%>
 <!--end header -->
 
 <!-- start banner_x -->
 <div class="banner_x center">
-    <a href="../index.jsp"><div class="logo fl"></div></a>
+    <a href="../goIndex.jsp"><div class="logo fl"></div></a>
 
     <div class="wdgwc fl ml40">我的购物车</div>
     <div class="wxts fl ml20">温馨提示：产品是否购买成功，以最终下单为准哦，请尽快结算</div>
@@ -59,7 +59,7 @@
                     <div class="content2 center">
                         <div class="sub_content fl ">
                         </div>
-                        <div class="sub_content fl"><img src="../tesiro/diamond02/${list.image}" height="80" width="80;" style="margin-top: 20px;margin-right: 100px"></div>
+                        <div class="sub_content fl"><img src="../image/${list.image}" height="80" width="80;" style="margin-top: 20px;margin-right: 100px"></div>
                         <div class="sub_content fl ft20">${list.title}</div>
                         <div class="sub_content fl ">&nbsp;￥${list.price}</div>
                         <div class="sub_content fl ">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1</div>
@@ -84,7 +84,7 @@
     <div class="jiesuandan mt20 center">
         <div class="tishi fl ml20">
             <ul>
-                <li><a href="<%=request.getContextPath()%>/index.jsp">继续购物</a></li>
+                <li><a href="<%=request.getContextPath()%>/goIndex.jsp">继续购物</a></li>
                 <li>|</li>
                 <li>共<span>${sessionScope.shoppingCartList.size()}</span>件商品</li>
                 <div class="clear"></div>
@@ -98,7 +98,7 @@
         <div class="clear"></div>
     </div>
 </div>
-<div onclick="smoothscroll()" style="float: right"><img src="<%=request.getContextPath()%>/image/topback.png" height="40px" width="40px" title="返回顶部"></div>
+<div onclick="smoothscroll()" style="float: right"><img src="<%=request.getContextPath()%>/static/img/topback.png" height="40px" width="40px" title="返回顶部"></div>
 
 <!-- footer -->
 <%@include file="/frontpage/footer/footer.jsp"%>

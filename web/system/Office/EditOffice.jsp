@@ -107,16 +107,6 @@
                 type: "post",
                 url: "<%=request.getContextPath()%>/OfficeServlet",
                 data: {
-                    //       private int officeId;//职员编号
-// private String officeName;//职员姓名
-// private String roleName;//角色名（超级管理员/普通管理员）
-// private String sex;//性别
-// private int phone;//联系电话
-// private String email;//邮箱
-// private String address;//详细住址
-// private String degree;//学历
-// private Date officeTime;//入职时间
-// private String password;//登陆密码
                     action: "updateOffice",
                     officeId: data.field. officeId,
                     officeName: data.field. officeName,

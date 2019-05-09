@@ -30,13 +30,18 @@
     <div class="biaoti center"></div>
 
     <div class="main center">
-        <div class="mingxing fl mb20" style="border:2px solid #fff;width:230px;cursor:pointer;" onmouseout="this.style.border='2px solid #fff'" onmousemove="this.style.border='2px solid red'">
-            <div class="sub_mingxing"><a href=""><img src="../static/tesiro/diamond/diamond01.png" alt=""></a></div>
-            <div class="pinpai"><a href="">SWEETIE系列 心蓝 30分 G色</a></div>
-            <div class="youhui">主钻重量: 30分 钻石颜色: G色 钻石净度: VS2 钻石切工: VG</div>
-            <div class="jiage">￥16179</div>
-        </div>
-        <div class="mingxing fl mb20" style="border:2px solid #fff;width:230px;cursor:pointer;" onmouseout="this.style.border='2px solid #fff'" onmousemove="this.style.border='2px solid red'">
+        <c:forEach items="${requestScope.ershouwupin}" var="news">
+            <div class="mingxing fl mb20" style="border:2px solid #fff;width:230px;cursor:pointer;" onmouseout="this.style.border='2px solid #fff'" onmousemove="this.style.border='2px solid red'">
+                <div class="sub_mingxing"><a href="<%=request.getContextPath()%>/ershouServlet?action=queryDetail&id=${news.id}"><img src="./image/${news.image}" alt=""></a></div>
+                    <%-- <div class="pinpai"><a href="">SWEETIE系列 心蓝 30分 G色</a></div>
+                     <div class="youhui">主钻重量: 30分 钻石颜色: G色 钻石净度: VS2 钻石切工: VG</div>--%>
+                <div class="jiage">${news.title}</div>
+                <div class="jiage">${news.price}元</div>
+            </div>
+
+        </c:forEach>
+
+        <%--<div class="mingxing fl mb20" style="border:2px solid #fff;width:230px;cursor:pointer;" onmouseout="this.style.border='2px solid #fff'" onmousemove="this.style.border='2px solid red'">
             <div class="sub_mingxing"><a href=""><img src="../static/tesiro/diamond/diamond03.jpg" alt=""></a></div>
             <div class="pinpai"><a href="">MY HEART系列 简奢款 100分 D色</a></div>
             <div class="youhui">主钻重量: 100分 钻石颜色: D色 钻石净度: VS2  </div>
@@ -52,18 +57,19 @@
             <div class="sub_mingxing"><a href=""><img src="../static/tesiro/diamond/diamond04.jpg" alt=""></a></div>
             <div class="pinpai"><a href="">BELIEVE系列 典雅 100分 H色</a></div>
             <div class="youhui">主钻重量: 100分 钻石颜色: H色 钻石净度: VS1 钻石切工: VG</div>
-            <div class="jiage">¥100999</div>
+            <div class="jiage">￥100999</div>
         </div>
         <div class="mingxing fl mb20" style="border:2px solid #fff;width:230px;cursor:pointer;" onmouseout="this.style.border='2px solid #fff'" onmousemove="this.style.border='2px solid red'">
             <div class="sub_mingxing"><a href=""><img src="../static/tesiro/diamond/diamond05.jpg" alt=""></a></div>
             <div class="pinpai"><a href="">JUST YOU系列 简奢款 18分 H色</a></div>
             <div class="youhui">主钻重量: 18分 钻石颜色: H色 钻石净度: SI1</div>
-            <div class="jiage">¥7419</div>
+            <div class="jiage">￥7419</div>
         </div>
-        <div class="clear"></div>
+        <div class="clear"></div>--%>
     </div>
 </div>
 
 <%@include file="/frontpage/footer/footer.jsp"%>
 </body>
 </html>
+

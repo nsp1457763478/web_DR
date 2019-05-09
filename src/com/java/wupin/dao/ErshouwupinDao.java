@@ -13,12 +13,20 @@ import java.util.List;
  * Description: No Description
  */
 public interface ErshouwupinDao {
-    List<Ershouwupin> findAll();
-    List<Ershouwupin> search(String title, Integer index, Integer pageCount);
-    Ershouwupin queryDetail(Integer id);
-    List<Ershouwupin> findOneSale(String username, Integer index, Integer pageCount);
-    Integer delete(Integer id);
-    Integer getCount(String title);
-    Integer getOneSaleCount(String user);
-    Integer update(Ershouwupin ershouwupin);
+    public List<Ershouwupin> findAll();
+    public List<Ershouwupin> search(String title, Integer index, Integer pageCount);
+    public Ershouwupin queryDetail(Integer id);
+    public List<Ershouwupin> findOneSale(String office_name, Integer index, Integer pageCount);
+    public Integer delete(Integer id);
+    public Integer getCount(String title);
+    public Integer getOneSaleCount(String office_name);
+    public Integer update(Ershouwupin ershouwupin);
+
+
+    public Integer add(Ershouwupin ershouwupin);
+    public List<String> findAllType();
+   // public List<Ershouwupin> findHot();
+    public List<Ershouwupin> findNewst();
+
+    public List<Ershouwupin> findByType(String type);
 }

@@ -12,7 +12,7 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>二货商城-个人中心</title>
+    <title>DR-个人中心</title>
     <link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/static/css/style.css">
     <link rel="icon" href="<%=request.getContextPath()%>/static/img/logo2.ico" type="image/x-icon"/>
 </head>
@@ -36,16 +36,21 @@
                 <ul>
                     <li><a href="<%=request.getContextPath()%>/UserServlet?action=findOne&username=${sessionScope.username}" style="color:#ff6700;font-weight:bold;">我的个人中心</a></li>
                     <li><a href="<%=request.getContextPath()%>/InformationServlet?action=findAll">消息通知</a></li>
-                    <li><a href="<%=request.getContextPath()%>/ershouServlet?action=findOneSale&username=${sessionScope.username}">我的上架</a></li>
+                    <%--<li><a href="<%=request.getContextPath()%>/ershouServlet?action=findOneSale&username=${sessionScope.username}">我的上架</a></li>--%>
                 </ul>
             </div>
         </div>
         <div class="rtcont fr">
             <div class="grzlbt ml40">我的资料</div>
-            <div class="subgrzl ml40"><span>用户名</span><span id="username">${requestScope.user.userName}</span></div>
-            <div class="subgrzl ml40"><span>密码</span><span id="password">${requestScope.user.password}</span></div>
-            <div class="subgrzl ml40"><span>手机号</span><span id="phone">${requestScope.user.phone}</span></div>
-            <div class="subgrzl ml40"><span>收货地址</span><span id="addr">${requestScope.user.addr}</span></div>
+            <div class="subgrzl ml40"><span>用户id</span><span id="u_id">${requestScope.u_id}</span></div>
+            <div class="subgrzl ml40"><span>用户名</span><span id="username">${requestScope.username}</span></div>
+            <div class="subgrzl ml40"><span>真实姓名</span><span id="name">${requestScope.name}</span></div>
+            <div class="subgrzl ml40"><span>身份证号</span><span id="id">${requestScope.id}</span></div>
+            <div class="subgrzl ml40"><span>性别</span><span id="sex">${requestScope.sex}</span></div>
+            <div class="subgrzl ml40"><span>手机号</span><span id="phone">${requestScope.phone}</span></div>
+            <div class="subgrzl ml40"><span>邮箱</span><span id="email">${requestScope.email}</span></div>
+            <div class="subgrzl ml40"><span>收货地址</span><span id="address">${requestScope.address}</span></div>
+            <div class="subgrzl ml40"><span>密码</span><span id="password">${requestScope.password}</span></div>
             <div style="text-align:center">
                 <button onclick="edit()" style="width: 400px;height: 50px;border-radius: 10px;background:lightcyan;">编辑个人资料</button>
             </div>
@@ -67,15 +72,25 @@
     };
 
     function edit() {
+        var u_id=document.getElementById("u_id").innerHTML;
         var username=document.getElementById("username").innerHTML;
+        var name=document.getElementById("name").innerHTML;
+        var id=document.getElementById("id").innerHTML;
+        var sex=document.getElementById("sex").innerHTML;
         var phone=document.getElementById("phone").innerHTML;
+        var email=document.getElementById("email").innerHTML;
+        var address=document.getElementById("address").innerHTML;
         var password=document.getElementById("password").innerHTML;
-        var addr=document.getElementById("addr").innerHTML;
         var user = {
+            u_id:u_id,
             username:username,
+            name:name,
+            id:id,
+            sex:sex,
             phone: phone,
+            email:email,
+            address: address,
             password: password,
-            addr: addr,
         };
         layer.open({
             title: this.text,
@@ -94,3 +109,4 @@
     }
 </script>
 </html>
+

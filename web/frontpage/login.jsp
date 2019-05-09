@@ -19,7 +19,7 @@
 <!-- login -->
 <div class="top center">
     <div class="logo center">
-        <a href="../index.jsp"><img src="<%=request.getContextPath()%>/static/tesiro/logo/logo2.jpg" alt=""></a>
+        <a href="GoIndexServlet"><img src="<%=request.getContextPath()%>/static/tesiro/logo/logo2.jpg" alt=""></a>
     </div>
 </div>
 <div class="form center">
@@ -79,7 +79,7 @@
                     $.sendSuccessToTop('登陆成功！', 3000, function() {
                         console.log('sendSuccessToTop closed');
                     });
-                    window.setTimeout("window.location='../index.jsp'",3000);
+                    window.setTimeout("window.location='../goIndex.jsp'",3000);
                 }
             }
         });

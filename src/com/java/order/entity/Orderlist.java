@@ -8,46 +8,66 @@ package com.java.order.entity;
  * Description: No Description
  */
 public class Orderlist {
+
     private Integer id;
     private String  wupinImage;
     private Integer wupinId;
     private Integer wupinNumber;
-    private String  sellUser;
     private String  buyUser;
     private String  addr;
     private String  isDelivered;
-    private String  orderlistNumber;
-    private Integer totalCost;
+    private String  orderlistNumber;//订单号
+    private Integer totalCost;//总花费
     private String  date;
+    private String  title;
+    private String office_name;
 
-    public Orderlist() {
+    public Orderlist(Integer id, Integer wupinId, String buyUser,String title) {
+        this.id = id;
+        this.wupinId = wupinId;
+        this.buyUser = buyUser;
+        this.title = title;
     }
 
-    public Orderlist(String wupinImage, Integer wupinId, Integer wupinNumber, String sellUser, String buyUser, String addr, String isDelivered, String orderlistNumber, Integer totalCost, String date) {
+    public Orderlist(String wupinImage, Integer wupinId, Integer wupinNumber, String buyUser, String addr, String isDelivered, String orderlistNumber, Integer totalCost, String date,String title,String office_name) {
         this.wupinImage = wupinImage;
         this.wupinId = wupinId;
         this.wupinNumber = wupinNumber;
-        this.sellUser = sellUser;
         this.buyUser = buyUser;
         this.addr = addr;
         this.isDelivered = isDelivered;
         this.orderlistNumber = orderlistNumber;
         this.totalCost = totalCost;
         this.date = date;
+        this.title = title;
+        this.office_name=office_name;
     }
-
-    public Orderlist(Integer id, String wupinImage, Integer wupinId, Integer wupinNumber, String sellUser,  String buyUser, String addr, String isDelivered, String orderlistNumber, Integer totalCost, String date) {
+    public Orderlist(Integer id,String wupinImage, Integer wupinId, Integer wupinNumber, String buyUser, String addr, String isDelivered, String orderlistNumber, Integer totalCost, String date,String title,String office_name) {
         this.id = id;
         this.wupinImage = wupinImage;
         this.wupinId = wupinId;
         this.wupinNumber = wupinNumber;
-        this.sellUser = sellUser;
         this.buyUser = buyUser;
         this.addr = addr;
         this.isDelivered = isDelivered;
         this.orderlistNumber = orderlistNumber;
         this.totalCost = totalCost;
         this.date = date;
+        this.title = title;
+        this.office_name=office_name;
+    }
+    public Orderlist(Integer id, String wupinImage, Integer wupinId, Integer wupinNumber, String buyUser, String addr, String isDelivered, String orderlistNumber, Integer totalCost, String date,String title) {
+        this.id = id;
+        this.wupinImage = wupinImage;
+        this.wupinId = wupinId;
+        this.wupinNumber = wupinNumber;
+        this.buyUser = buyUser;
+        this.addr = addr;
+        this.isDelivered = isDelivered;
+        this.orderlistNumber = orderlistNumber;
+        this.totalCost = totalCost;
+        this.date = date;
+        this.title = title;
     }
 
     public Integer getId() {
@@ -80,14 +100,6 @@ public class Orderlist {
 
     public void setWupinNumber(Integer wupinNumber) {
         this.wupinNumber = wupinNumber;
-    }
-
-    public String getSellUser() {
-        return sellUser;
-    }
-
-    public void setSellUser(String sellUser) {
-        this.sellUser = sellUser;
     }
 
     public String getBuyUser() {
@@ -138,6 +150,22 @@ public class Orderlist {
         this.date = date;
     }
 
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public String getOffice_name() {
+        return office_name;
+    }
+
+    public void setOffice_name(String office_name) {
+        this.office_name = office_name;
+    }
+
     @Override
     public String toString() {
         return "Orderlist{" +
@@ -145,13 +173,14 @@ public class Orderlist {
                 ", wupinImage='" + wupinImage + '\'' +
                 ", wupinId=" + wupinId +
                 ", wupinNumber=" + wupinNumber +
-                ", sellUser='" + sellUser + '\'' +
                 ", buyUser='" + buyUser + '\'' +
                 ", addr='" + addr + '\'' +
                 ", isDelivered='" + isDelivered + '\'' +
                 ", orderlistNumber='" + orderlistNumber + '\'' +
                 ", totalCost=" + totalCost +
                 ", date='" + date + '\'' +
+                ", title='" + title + '\'' +
+                ", office_name='" + office_name + '\'' +
                 '}';
     }
 }

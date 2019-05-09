@@ -1,17 +1,17 @@
 package com.java.shoppingCart.servlet;
 
 
-import com.java.wupin.entity.Ershouwupin;
-import com.java.order.entity.Information;
 import com.java.order.entity.Orderlist;
-import com.java.order.service.OrderlistService;
-import com.java.wupin.service.ErshouwupinService;
 import com.java.order.service.InformationService;
+import com.java.order.service.OrderlistService;
 import com.java.shoppingCart.entity.ShoppingCart;
 import com.java.shoppingCart.service.ShoppingCartService;
+import com.java.system.service.OfficeService;
 import com.java.user.entity.User;
 import com.java.user.service.UserService;
 import com.java.util.DateUtil;
+import com.java.wupin.entity.Ershouwupin;
+import com.java.wupin.service.ErshouwupinService;
 
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -37,6 +37,7 @@ public class ShoppingCartServlet extends HttpServlet {
     private ErshouwupinService ershouwupinService=new ErshouwupinService();
     private OrderlistService orderlistService=new OrderlistService();
     private UserService userService=new UserService();
+    private OfficeService officeService=new OfficeService();
     private InformationService informationService=new InformationService();
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
         //解决中文乱码
@@ -147,61 +148,61 @@ public class ShoppingCartServlet extends HttpServlet {
 
     private void payed(HttpServletRequest request, HttpServletResponse response) throws IOException {
         HttpSession session = request.getSession();
-        Integer sum =(Integer) session.getAttribute("sum");
-        if(sum==0){
+        Integer sum = (Integer) session.getAttribute("sum");
+        if (sum == 0) {
             response.getWriter().print("您尚未购买商品,快快去浏览吧!");
         }
-        List<ShoppingCart> shoppingCartList =(List<ShoppingCart>) session.getAttribute("shoppingCartList");
+        List<ShoppingCart> shoppingCartList = (List<ShoppingCart>) session.getAttribute("shoppingCartList");
         //从数据库获取到所有购物车的物品
-        List<Ershouwupin> ershouwupinList=new ArrayList<>();
-        for (ShoppingCart shoppingCart:shoppingCartList
-             ) {
+        List<Ershouwupin> ershouwupinList = new ArrayList<>();
+        for (ShoppingCart shoppingCart : shoppingCartList
+        ) {
             Integer id = shoppingCart.getId();
             //将购物车所有商品获取到，准备生成订单
             Ershouwupin ershouwupin = ershouwupinService.queryDetail(id);
             ershouwupinList.add(ershouwupin);
         }
         //用于生成订单的list集合
-        for (Ershouwupin ershouwupin:ershouwupinList
-             ) {
-            String image = ershouwupin.getImage();
+        for (Ershouwupin ershouwupin : ershouwupinList
+        ) {
             Integer id = ershouwupin.getId();
-            Integer number=1;
-            String sellUser = ershouwupin.getSellUser();
-            User one = userService.findOne(sellUser);
-           //String sellUserCollege = one.getCollege();
-            String buyUser =(String) session.getAttribute("username");
+           // String title = ershouwupin.getTitle();
+            String image = ershouwupin.getImage();
+            Integer number = 1;
+            String buyUser = (String) session.getAttribute("username");
             User buyuser = userService.findOne(buyUser);
-            String isDelivered="未发货";
+            String isDelivered = "未发货";
             //生成订单号
             String listDate = DateUtil.dateToString(new Date(System.currentTimeMillis()));
             int hashCodeV = UUID.randomUUID().toString().hashCode();
-            if(hashCodeV < 0) {//有可能是负数
-                hashCodeV = - hashCodeV;
+            if (hashCodeV < 0) {//有可能是负数
+                hashCodeV = -hashCodeV;
             }
-            String str=listDate+"-"+hashCodeV;
-            String orderlistNumber = str.substring(0,29);
+            String str = listDate + "-" + hashCodeV;
+            String orderlistNumber = str.substring(0, 29);
             //总花费
             Integer total = ershouwupin.getPrice();
             String date = DateUtil.dateToString(new Date(System.currentTimeMillis()));
-            Orderlist orderlist = new Orderlist(image, id, number, sellUser, buyUser,buyuser.getAddress(), isDelivered, orderlistNumber, total, date);
+            String title = ershouwupin.getTitle();
+            String officeName = ershouwupin.getOffice_name();
+            Orderlist orderlist = new Orderlist(image, id, number, buyUser, buyuser.getAddress(), isDelivered, orderlistNumber, total, date, title,officeName);
             orderlistService.add(orderlist);
         }
-        //从数据库将所售物品删除,并通知卖家发货
-        for (Ershouwupin ershouwupin:ershouwupinList
-             ) {
-            String sellUser = ershouwupin.getSellUser();
-            //通过物品卖家姓名来确定给谁发通知
-            User user = userService.findOne(sellUser);
-            //要提醒卖家发货的通知
-            String information="您好，您上架的 "+ershouwupin.getTitle()+" 已被购买，请及时发货";
-            String newDate=DateUtil.dateToString(new Date(System.currentTimeMillis()));
-            //发送通知
-            Integer add = informationService.add(new Information(user.getU_id(),information,"未读", newDate));
-            ershouwupinService.delete(ershouwupin.getId());
-        }
+        //通知卖家发货
+//        for (Ershouwupin ershouwupin : ershouwupinList
+//        ) {
+//            //String title = ershouwupin.getTitle();
+//            String office_name = ershouwupin.getOffice_name();
+//            //通过物品卖家姓名来确定给谁发通知
+//            Office office = officeService.findOfficeByOfficeName(office_name);
+//            //要提醒卖家发货的通知
+//            String information = "您好，您上架的 " + ershouwupin.getTitle() + " 已被购买，请及时发货";
+//            String newDate = DateUtil.dateToString(new Date(System.currentTimeMillis()));
+//            //发送通知
+//            Integer add = informationService.add(new Information(office.getOfficeId(), information, "未读", newDate));
+//        }
         //将购买的商品从购物车清空
-        String username =(String) session.getAttribute("username");
+        String username = (String) session.getAttribute("username");
         shoppingCartService.deleteAll(username);
         response.getWriter().print("支付成功!请前往个人中心订单中心查看!");
     }

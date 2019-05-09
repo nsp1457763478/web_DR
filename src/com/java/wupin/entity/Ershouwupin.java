@@ -12,43 +12,13 @@ public class Ershouwupin {
     private String title;
     private String type;
     private String image;
-    private String deal;
-    private String where;
     private Integer price;
-    private String sellUser;
-    private String sellPhone;
+    private Integer stock;//库存
     private String introduce;
     private String date;
+    private Integer click;
+    private String office_name;
 
-    public Ershouwupin() {
-    }
-
-    public Ershouwupin(String title, String type, String image, String deal, String where, Integer price, String sellUser, String sellPhone, String introduce, String date) {
-        this.title = title;
-        this.type = type;
-        this.image = image;
-        this.deal = deal;
-        this.where = where;
-        this.price = price;
-        this.sellUser = sellUser;
-        this.sellPhone = sellPhone;
-        this.introduce = introduce;
-        this.date = date;
-    }
-
-    public Ershouwupin(Integer id, String title, String type, String image, String deal, String where, Integer price, String sellUser, String sellPhone, String introduce, String date) {
-        this.id = id;
-        this.title = title;
-        this.type = type;
-        this.image = image;
-        this.deal = deal;
-        this.where = where;
-        this.price = price;
-        this.sellUser = sellUser;
-        this.sellPhone = sellPhone;
-        this.introduce = introduce;
-        this.date = date;
-    }
 
     public Integer getId() {
         return id;
@@ -82,22 +52,6 @@ public class Ershouwupin {
         this.image = image;
     }
 
-    public String getDeal() {
-        return deal;
-    }
-
-    public void setDeal(String deal) {
-        this.deal = deal;
-    }
-
-    public String getWhere() {
-        return where;
-    }
-
-    public void setWhere(String where) {
-        this.where = where;
-    }
-
     public Integer getPrice() {
         return price;
     }
@@ -106,20 +60,12 @@ public class Ershouwupin {
         this.price = price;
     }
 
-    public String getSellUser() {
-        return sellUser;
+    public Integer getStock() {
+        return stock;
     }
 
-    public void setSellUser(String sellUser) {
-        this.sellUser = sellUser;
-    }
-
-    public String getSellPhone() {
-        return sellPhone;
-    }
-
-    public void setSellPhone(String sellPhone) {
-        this.sellPhone = sellPhone;
+    public void setStock(Integer stock) {
+        this.stock = stock;
     }
 
     public String getIntroduce() {
@@ -138,6 +84,67 @@ public class Ershouwupin {
         this.date = date;
     }
 
+    public Integer getClick() {
+        return click;
+    }
+
+    public void setClick(Integer click) {
+        this.click = click;
+    }
+
+    public String getOffice_name() {
+        return office_name;
+    }
+
+    public void setOffice_name(String office_name) {
+        this.office_name = office_name;
+    }
+
+    public Ershouwupin() {
+    }
+
+    public Ershouwupin(Integer id, String title, String type, String image, Integer price, Integer stock, String introduce, String date, Integer click,String office_name) {
+        this.id = id;
+        this.title = title;
+        this.type = type;
+        this.image = image;
+        this.price = price;
+        this.stock = stock;
+        this.introduce = introduce;
+        this.date = date;
+        this.click = click;
+        this.office_name = office_name;
+    }
+    public Ershouwupin(String title, String type, String image, Integer price, Integer stock, String introduce, String date, Integer click,String office_name) {
+        this.title = title;
+        this.type = type;
+        this.image = image;
+        this.price = price;
+        this.stock = stock;
+        this.introduce = introduce;
+        this.date = date;
+        this.click = click;
+        this.office_name = office_name;
+    }
+    public Ershouwupin(String title, String type, String image, Integer price, Integer stock, String introduce, String date,String office_name) {
+        this.title = title;
+        this.type = type;
+        this.image = image;
+        this.price = price;
+        this.stock = stock;
+        this.introduce = introduce;
+        this.date = date;
+        this.office_name = office_name;
+    }
+    public Ershouwupin(String title, String type, Integer price, Integer stock, String introduce, String date,String office_name) {
+        this.title = title;
+        this.type = type;
+        this.price = price;
+        this.stock = stock;
+        this.introduce = introduce;
+        this.date = date;
+        this.office_name = office_name;
+    }
     @Override
     public String toString() {
         return "Ershouwupin{" +
@@ -145,13 +152,12 @@ public class Ershouwupin {
                 ", title='" + title + '\'' +
                 ", type='" + type + '\'' +
                 ", image='" + image + '\'' +
-                ", deal='" + deal + '\'' +
-                ", where='" + where + '\'' +
                 ", price=" + price +
-                ", sellUser='" + sellUser + '\'' +
-                ", sellPhone='" + sellPhone + '\'' +
+                ", stock=" + stock +
                 ", introduce='" + introduce + '\'' +
                 ", date='" + date + '\'' +
+                ", click='" + click + '\'' +
+                ", office_name=" + office_name +
                 '}';
     }
 }

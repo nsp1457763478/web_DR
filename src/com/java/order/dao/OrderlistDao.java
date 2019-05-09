@@ -2,6 +2,7 @@ package com.java.order.dao;
 
 
 import com.java.order.entity.Orderlist;
+import com.java.util.PageBean;
 
 import java.util.List;
 
@@ -13,9 +14,16 @@ import java.util.List;
  * Description: No Description
  */
 public interface OrderlistDao {
-    List<Orderlist> findAll(String user, Integer index, Integer pageCount);
-    Integer add(Orderlist orderlist);
-    Orderlist findOne(Integer id);
-    Integer deleteOne(Integer id);
-    Integer getCount(String user);
+    public List<Orderlist> findAll(String user, Integer index, Integer pageCount);
+    public Integer add(Orderlist orderlist);
+    public Orderlist findOne(Integer id);
+    public Integer deleteOne(Integer id);
+    public Integer getCount(String user);
+    public List<Orderlist> queryPage(PageBean pageBean);
+
+
+    public List<Orderlist> findAll();
+    public Orderlist findOneByWupinId(Integer wupinId);
+    public Integer update(Integer id);
+
 }

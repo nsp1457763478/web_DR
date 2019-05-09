@@ -6,12 +6,13 @@ import com.java.util.JdbcUtil;
 import com.java.util.JiaMi;
 import com.java.util.PageBean;
 import org.apache.commons.dbutils.QueryRunner;
-import org.apache.commons.dbutils.handlers.BeanHandler;
+import org.apache.commons.dbutils.handlers.BeanListHandler;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -23,23 +24,79 @@ public class UserDaoImpl implements UserDao {
     @Override
     public List<User> queryPage(PageBean pageBean) {
         String sql="select * from user limit ?,?";
+        System.out.println("sql========="+sql);
+        List<User>list = new ArrayList<>();
+        PreparedStatement ps=null;
+        ResultSet rs = null;
         try {
-            List<User> list = qr.execute(JdbcUtil.getConnection(), sql, new BeanHandler<>(User.class),pageBean.getIndex(),pageBean.getCount());
-            return list;
+            Connection connection = JdbcUtil.getConnection();
+            ps = connection.prepareStatement(sql);
+            ps.setInt(1,pageBean.getIndex());
+            ps.setInt(2,pageBean.getPageCount());
+            rs = ps.executeQuery();
+            while (rs.next()){
+                int u_id = rs.getInt("u_id");
+                String username = rs.getString("username");
+                String name = rs.getString("name");
+                long id = rs.getLong("id");
+                String sex = rs.getString("sex");
+                long phone = rs.getLong("phone");
+                String email = rs.getString("email");
+                String address = rs.getString("address");
+                String password = rs.getString("password");
+                User user = new User(u_id, username, name, id, sex, phone, email, address, password);
+                list.add(user);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if(rs!=null)
+                    rs.close();
+                if(ps!=null)
+                    ps.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+            JdbcUtil.close();
+        }
+        return list;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      /*  List<User> list=new ArrayList<>();
+        try {
+            list = qr.query(JdbcUtil.getConnection(), sql, new BeanListHandler<>(User.class), pageBean.getIndex(), pageBean.getCount());
+
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return null;
+        return list;*/
     }
     public List<User> findAll(){
         String sql="select * from user";
+        List<User> userList=new ArrayList<>();
+
         try {
-            List<User> userList = qr.execute(JdbcUtil.getConnection(), sql, new BeanHandler<>(User.class));
-            return  userList;
+            userList = qr.query(JdbcUtil.getConnection(), sql, new BeanListHandler<>(User.class));
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return null;
+        System.out.println(userList.size());
+
+        return userList;
     }
 
     @Override
@@ -55,7 +112,7 @@ public class UserDaoImpl implements UserDao {
             rs = ps.executeQuery();
             while (rs.next()){
                 user.setU_id(rs.getInt("u_id"));
-                user.setUsername(rs.getString("username"));
+                rs.getString("username");
                 user.setName(rs.getString("name"));
                 user.setId(rs.getLong("id"));
                 user.setSex(rs.getString("sex"));
@@ -141,7 +198,7 @@ public class UserDaoImpl implements UserDao {
             User user=new User();
             while (rs.next()){
                 user.setU_id(rs.getInt("u_id"));
-                user.setUsername(rs.getString("username"));
+                rs.getString("username");
                 user.setName(rs.getString("name"));
                 user.setId(rs.getLong("id"));
                 user.setSex(rs.getString("sex"));
@@ -149,6 +206,7 @@ public class UserDaoImpl implements UserDao {
                 user.setEmail(rs.getString("email"));
                 user.setAddress(rs.getString("address"));
                 user.setPassword(rs.getString("password"));
+                return user;
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -183,7 +241,7 @@ public class UserDaoImpl implements UserDao {
             ps.setLong(5,user.getPhone());
             ps.setString(6,user.getEmail());
             ps.setString(7,user.getAddress());
-            ps.setString(8,password);
+            ps.setString(8,newPassword);
             ps.setInt(9,user.getU_id());
             Integer i = ps.executeUpdate();
             return i;

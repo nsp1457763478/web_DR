@@ -12,17 +12,17 @@
     <div class="top center">
         <div class="left fl">
             <ul>
-                <li><a href="<%=request.getContextPath()%>/index.jsp">稀世粉钻</a></li>
+                <li><a href="<%=request.getContextPath()%>/GoIndexServlet">稀世粉钻</a></li>
                 <li>|</li>
-                <li><a href="http://www.tesiro.com/" target="_blank">王后系列</a></li>
+                <li><a href="<%=request.getContextPath()%>/GoIndexServlet">王后系列</a></li>
                 <li>|</li>
-                <li><a href="http://www.darryring.com" target="_blank">DR求婚钻戒</a></li>
+                <li><a href="<%=request.getContextPath()%>/GoIndexServlet">DR求婚钻戒</a></li>
                 <li>|</li>
-                <li><a href="http://www.tiffany.com">香港-铜锣湾店</a></li>
+                <li><a href="<%=request.getContextPath()%>/GoIndexServlet">香港-铜锣湾店</a></li>
                 <li>|</li>
-                <li><a href="https://www.chanel.com/zh_CN">香奈儿</a></li>
+                <li><a href="<%=request.getContextPath()%>/GoIndexServlet">香奈儿</a></li>
                 <li>|</li>
-                <li><a href="">为下一代珍藏</a></li>
+                <li><a href="<%=request.getContextPath()%>/GoIndexServlet">为下一代珍藏</a></li>
                 <div class="clear"></div>
             </ul>
         </div>
@@ -30,11 +30,11 @@
             <c:if test="${sessionScope.username==null}">
                 <div class="fr">
                     <ul>
-                        <li><a href="<%=request.getContextPath()%>/foreground/login.jsp">登录</a></li>
+                        <li><a href="<%=request.getContextPath()%>/frontpage/login.jsp">登录</a></li>
                         <li>|</li>
-                        <li><a href="<%=request.getContextPath()%>/foreground/register.jsp">注册</a></li>
+                        <li><a href="<%=request.getContextPath()%>/frontpage/register.jsp">注册</a></li>
                         <li>|</li>
-                        <div class="gouwuche fr"><a href="<%=request.getContextPath()%>/foreground/login.jsp">购物车</a></div>
+                        <div class="gouwuche fr"><a href="<%=request.getContextPath()%>/frontpage/login.jsp">购物车</a></div>
                     </ul>
                 </div>
             </c:if>
@@ -58,18 +58,18 @@
 </header>
 <!-- start banner_x -->
 <div class="banner_x center">
-    <a href="<%=request.getContextPath()%>/index.jsp"><div class="logo fl"></div></a>
+    <a href="<%=request.getContextPath()%>/GoIndexServlet"><div class="logo fl"></div></a>
     <%--<a href=""><div class="ad_top fl"></div></a>--%>
     <div class="nav fl">
         <ul>
-            <li style="padding-left: 20px"><a href="<%=request.getContextPath()%>/foreground/liebiao.jsp"  style="font-size: 14px">DR</a></li>
-            <li style="padding-left: 20px"><a href="<%=request.getContextPath()%>/foreground/liebiao.jsp"  style="font-size: 14px">求婚钻戒</a></li>
-            <li style="padding-left: 20px"><a href="<%=request.getContextPath()%>/foreground/liebiao.jsp"  style="font-size: 14px">结婚对戒</a></li>
-            <li style="padding-left: 20px"><a href="<%=request.getContextPath()%>/foreground/liebiao.jsp"  style="font-size: 14px">真爱礼物</a></li>
-            <li style="padding-left: 20px"><a href="<%=request.getContextPath()%>/foreground/liebiao.jsp"  style="font-size: 14px">钻戒定制</a></li>
-            <li style="padding-left: 20px"><a href="<%=request.getContextPath()%>/foreground/liebiao.jsp"  style="font-size: 14px">真爱体验店</a></li>
-            <li style="padding-left: 20px"><a href="<%=request.getContextPath()%>/foreground/liebiao.jsp"  style="font-size: 14px">DR 品牌文化</a></li>
+            <li style="padding-left: 20px"><a href="<%=request.getContextPath()%>/ershouServlet?action=findByType&type=求婚钻戒"  style="font-size: 14px">求婚钻戒</a></li>
+            <li style="padding-left: 20px"><a href="<%=request.getContextPath()%>/ershouServlet?action=findByType&type=结婚对戒"  style="font-size: 14px">结婚对戒</a></li>
+            <li style="padding-left: 20px"><a href="<%=request.getContextPath()%>/ershouServlet?action=findByType&type=真爱礼物"  style="font-size: 14px">真爱礼物</a></li>
+            <li style="padding-left: 20px"><a href="<%=request.getContextPath()%>/frontpage/liebiao03.jsp"  style="font-size: 14px">钻戒定制</a></li>
+            <li style="padding-left: 20px"><a href="<%=request.getContextPath()%>/frontpage/liebiao02.jsp"  style="font-size: 14px">真爱体验店</a></li>
+            <li style="padding-left: 20px"><a href="<%=request.getContextPath()%>/frontpage/pinpaiwenhua.jsp"  style="font-size: 14px">DR 品牌文化</a></li>
             <li style="padding-left: 20px"><a href="<%=request.getContextPath()%>/static/tesiro/video/paris.mp4" target="_blank"  style="font-size: 14px">探索 DR</a></li>
+
         </ul>
     </div>
     <div class="search fr">
@@ -88,6 +88,6 @@
 <script>
     function search() {
         var title=document.getElementById("sousuo").value;
-        location.href="ershouServlet?action=search&title="+title;
+        location.href="<%=request.getContextPath()%>/ershouServlet?action=search&title="+title;
     }
 </script>

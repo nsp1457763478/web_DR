@@ -34,7 +34,7 @@ public class InformationService {
     public Integer deleteAll(Integer uId){
         return informationDao.deleteAll(uId);
     }
-    public Integer getCount(){
-        return informationDao.getCount();
+    public Integer getCount(Integer uId){
+        return informationDao.getCount(uId);
     }
 }

@@ -11,7 +11,7 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>二货商城-支付中心</title>
+    <title>DR-支付中心</title>
     <meta name="renderer" content="webkit">
     <meta name="viewport" content="width=device-width,user-scalable=yes, minimum-scale=0.4, initial-scale=0.8,target-densitydpi=low-dpi" />
     <link rel="stylesheet" href="<%=request.getContextPath()%>/time/jquery.tzineClock.css"/>
@@ -68,14 +68,15 @@
             dateType:"text",
             success:function (msg) {
                 if(msg==="支付成功!请前往个人中心订单中心查看!"){
-                    $.sendSuccessToTop(msg,3000, function() {
-                        console.log('sendSuccessToTop closed');
-                    });
+                    // $.sendSuccessToTop(msg,3000, function() {
+                    //     console.log('sendSuccessToTop closed');
+                    // });
+                   alert(msg);
                 }else if(msg==="您尚未购买商品,快快去浏览吧!"){
-                    $.sendWarningToTop(msg,3000, function() {
-                        console.log('sendWarningToTop closed');
-                    });
-
+                    // $.sendWarningToTop(msg,3000, function() {
+                    //     console.log('sendWarningToTop closed');
+                    // });
+                    alert(msg);
                 }
             }
         });

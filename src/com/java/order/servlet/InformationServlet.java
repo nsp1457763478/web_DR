@@ -5,6 +5,7 @@ import com.java.order.entity.Information;
 import com.java.order.service.InformationService;
 import com.java.user.entity.User;
 import com.java.user.service.UserService;
+import com.java.util.DateUtil;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -13,6 +14,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -39,22 +41,24 @@ public class InformationServlet extends HttpServlet {
             update(request,response);
         }else if("delete".equals(action)){
             delete(request,response);
+        }else if("informaionToAll".equals(action)){
+            informaionToAll(request,response);
         }
     }
 
     private void findAll(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession();
         String username = (String)session.getAttribute("username");
-        Integer count = informationService.getCount();
         Integer pageCount=3;
         String index = request.getParameter("index");
         if(index==null){
             index="1";
         }
-        Integer pages=(count+pageCount-1)/pageCount;
         User user = userService.findOne(username);
+        Integer count = informationService.getCount(user.getU_id());
         List<Information> informationList = informationService.findAll(user.getU_id(),Integer.parseInt(index),pageCount);
         Integer size = informationList.size();
+        Integer pages=(count+pageCount-1)/pageCount;
         request.setAttribute("informationList",informationList);
         request.setAttribute("end",pages);
         request.setAttribute("index",Integer.parseInt(index));
@@ -82,7 +86,16 @@ public class InformationServlet extends HttpServlet {
             response.getWriter().print("删除成功!");
         }
     }
-
+    private void informaionToAll(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String content = request.getParameter("content");
+        List<User> userAll = userService.findAll();
+        String newDate = DateUtil.dateToString(new Date(System.currentTimeMillis()));
+        for (User user:userAll
+        ) {
+            informationService.add(new Information(user.getU_id(),content,"未读",newDate));
+        }
+        response.getWriter().print("发送成功!");
+    }
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         doPost(request,response);
     }

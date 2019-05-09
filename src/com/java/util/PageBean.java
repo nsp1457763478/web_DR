@@ -58,4 +58,13 @@ public class PageBean {
     public void setPageCount(int pageCount) {
         this.pageCount = pageCount;
     }
+
+    @Override
+    public String toString() {
+        return "PageBean{" +
+                "count=" + count +
+                ", pageIndex=" + pageIndex +
+                ", pageCount=" + pageCount +
+                '}';
+    }
 }

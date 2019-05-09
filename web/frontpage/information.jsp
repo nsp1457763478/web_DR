@@ -12,7 +12,7 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>二货商城-通知中心</title>
+    <title>DR-通知中心</title>
     <link rel="icon" href="<%=request.getContextPath()%>/image/logo2.ico" type="image/x-icon"/>
 </head>
 <body>
@@ -35,7 +35,7 @@
                 <ul>
                     <li><a href="<%=request.getContextPath()%>/UserServlet?action=findOne&username=${sessionScope.username}">我的个人中心</a></li>
                     <li><a href="<%=request.getContextPath()%>/InformationServlet?action=findAll" style="color:#ff6700;font-weight:bold;">消息通知</a></li>
-                    <li><a href="<%=request.getContextPath()%>/ershouServlet?action=findOneSale&username=${sessionScope.username}">我的上架</a></li>
+                    <%--<li><a href="<%=request.getContextPath()%>/ershouServlet?action=findOneSale&username=${sessionScope.username}">我的上架</a></li>--%>
                 </ul>
             </div>
         </div>
@@ -101,7 +101,7 @@
         <div class="clear"></div>
     </div>
 </div>
-<div onclick="smoothscroll()" style="float: right"><img src="<%=request.getContextPath()%>/image/topback.png" height="40px" width="40px" title="返回顶部"></div>
+<div onclick="smoothscroll()" style="float: right"><img src="<%=request.getContextPath()%>/static/img/topback.png" height="40px" width="40px" title="返回顶部"></div>
 
 <%@include file="/frontpage/footer/footer.jsp"%>
 <script>

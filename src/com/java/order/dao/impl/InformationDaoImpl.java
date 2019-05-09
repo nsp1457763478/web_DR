@@ -23,7 +23,7 @@ import java.util.List;
 public class InformationDaoImpl implements InformationDao {
     @Override
     public List<Information> findAll(Integer uId, Integer index, Integer pageCount) {
-        String sql="select * from information where u_id=? limit ?,?";
+        String sql="select * from information where u_id=? order by date desc limit ?,?";
         List<Information> list=new ArrayList<>();
         PreparedStatement ps=null;
         ResultSet rs = null;
@@ -177,11 +177,12 @@ public class InformationDaoImpl implements InformationDao {
     }
 
     @Override
-    public Integer getCount() {
-        String sql="SELECT count(*) AS count FROM information";
+    public Integer getCount(Integer uId) {
+        String sql="SELECT count(*) AS count FROM information where u_id=?";
         Connection conn = JdbcUtil.getConnection();
         try {
             PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setInt(1,uId);
             ResultSet rs = ps.executeQuery();
             while (rs.next()){
                 Integer count = rs.getInt("count");

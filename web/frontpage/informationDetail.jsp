@@ -12,7 +12,7 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>二货商城-通知详情</title>
+    <title>DR-通知详情</title>
     <link rel="icon" href="<%=request.getContextPath()%>/image/logo2.ico" type="image/x-icon"/>
     <style>
         #read{
@@ -49,7 +49,7 @@
                 <ul>
                     <li><a href="<%=request.getContextPath()%>/UserServlet?action=findOne&username=${sessionScope.username}">我的个人中心</a></li>
                     <li><a href="<%=request.getContextPath()%>/InformationServlet?action=findAll" style="color:#ff6700;font-weight:bold;">消息通知</a></li>
-                    <li><a href="">我的上架</a></li>
+                    <%--<li><a href="">我的上架</a></li>--%>
                 </ul>
             </div>
         </div>
@@ -62,7 +62,7 @@
                     <div style="display: inline;margin-left: 170px">通知时间:${requestScope.information.date}</div>
                     <div style="display: inline;">【通知内容】</div>
                     <div style="display: inline;">${requestScope.information.content}</div>
-                    <div style="display: inline;margin-left: 730px">二货商城官方团队致上</div>
+                    <div style="display: inline;margin-left: 730px">通灵珠宝官方团队致上</div>
                     <div style="display: inline;margin-left: 220px"><button id="read" onclick="read()">我了解了</button></div>
                     <div style="display: inline;margin-left: 80px"><button id="delete" class="confirmMsgConfirmCancel">删除此通知</button></div>
                     </div>
@@ -78,7 +78,7 @@
         <div class="clear"></div>
     </div>
 </div>
-<div onclick="smoothscroll()" style="float: right"><img src="<%=request.getContextPath()%>/image/topback.png" height="40px" width="40px" title="返回顶部"></div>
+<div onclick="smoothscroll()" style="float: right"><img src="<%=request.getContextPath()%>/static/img/topback.png" height="40px" width="40px" title="返回顶部"></div>
 
 <%@include file="/frontpage/footer/footer.jsp"%>
 <script>

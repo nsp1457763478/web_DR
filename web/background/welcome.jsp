@@ -12,7 +12,18 @@
 <body>
 <div class="x-body layui-anim layui-anim-up">
     <blockquote class="layui-elem-quote">欢迎管理员：
-        <span class="x-red">${officeName}</span>！</blockquote>
+        <span class="x-red">${officeName}</span>！当前时间:<span id="nowTime"></span>
+        <script>
+            function getTime() {
+                var time=new Date();
+                $("#nowTime").html(time.toLocaleString());
+            }
+
+            $(function () {
+                setInterval("getTime()",1000);
+            });
+        </script>
+    </blockquote>
     <fieldset class="layui-elem-field">
         <legend>数据统计</legend>
         <div class="layui-field-box">
@@ -24,44 +35,37 @@
                                 <ul class="layui-row layui-col-space10 layui-this">
                                     <li class="layui-col-xs2">
                                         <a href="javascript:;" class="x-admin-backlog-body">
-                                            <h3>商品数</h3>
+                                            <h3>上架物品数</h3>
                                             <p>
-                                                <cite>${newsListCount}</cite></p>
+                                                <cite>${sessionScope.wupinCount}</cite></p>
                                         </a>
                                     </li>
                                     <li class="layui-col-xs2">
                                         <a href="javascript:;" class="x-admin-backlog-body">
-                                            <h3>商品类别</h3>
+                                            <h3>会员数</h3>
                                             <p>
-                                                <cite>${newsTypeListCount}</cite></p>
+                                                <cite>${sessionScope.userCount}</cite></p>
                                         </a>
                                     </li>
                                     <li class="layui-col-xs2">
                                         <a href="javascript:;" class="x-admin-backlog-body">
-                                            <h3>订单总数</h3>
+                                            <h3>留言数</h3>
                                             <p>
-                                                <cite>${commentListCount}</cite></p>
+                                                <cite>${sessionScope.commentCount}</cite></p>
                                         </a>
                                     </li>
                                     <li class="layui-col-xs2">
                                         <a href="javascript:;" class="x-admin-backlog-body">
-                                            <h3>友情链接数</h3>
+                                            <h3>已完成订单数</h3>
                                             <p>
-                                                <cite>${linkListCount}</cite></p>
+                                                <cite>${sessionScope.orderListCount}</cite></p>
                                         </a>
                                     </li>
                                     <li class="layui-col-xs2">
                                         <a href="javascript:;" class="x-admin-backlog-body">
-                                            <h3>点击访问量</h3>
+                                            <h3>网站总访问量</h3>
                                             <p>
-                                                <cite>${clickSum}</cite></p>
-                                        </a>
-                                    </li>
-                                    <li class="layui-col-xs2">
-                                        <a href="javascript:;" class="x-admin-backlog-body">
-                                            <h3>评论ip总数</h3>
-                                            <p>
-                                                <cite>${ipCount}</cite></p>
+                                                <cite>${sessionScope.visitCount}</cite></p>
                                         </a>
                                     </li>
                                 </ul>

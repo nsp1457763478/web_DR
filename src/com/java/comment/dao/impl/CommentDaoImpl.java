@@ -134,4 +134,100 @@ public class CommentDaoImpl implements CommentDao {
         }
         return 0;
     }
+
+    @Override
+    public List<Comment> findAll() {
+        String sql="select * from comment";
+        List<Comment> list=new ArrayList<>();
+        PreparedStatement ps=null;
+        ResultSet rs = null;
+        try {
+            Connection connection = JdbcUtil.getConnection();
+            ps = connection.prepareStatement(sql);
+            rs = ps.executeQuery();
+            while (rs.next()){
+                Integer id = rs.getInt("id");
+                Integer wupinId = rs.getInt("wupin_id");
+                String user = rs.getString("user");
+                String comment = rs.getString("comment");
+                Integer date = rs.getInt("date");
+                String newDate = DateUtil.timeStampToString(date);
+                list.add(new Comment(id,wupinId,user,comment,newDate));
+            }
+            return list;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if(rs!=null)
+                    rs.close();
+                if(ps!=null)
+                    ps.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+            JdbcUtil.close();
+        }
+        return null;
+    }
+
+    @Override
+    public List<Comment> findReport() {
+        String sql="select * from comment where is_reported=1";
+        List<Comment> list=new ArrayList<>();
+        PreparedStatement ps=null;
+        ResultSet rs = null;
+        try {
+            Connection connection = JdbcUtil.getConnection();
+            ps = connection.prepareStatement(sql);
+            rs = ps.executeQuery();
+            while (rs.next()){
+                Integer id = rs.getInt("id");
+                Integer wupinId = rs.getInt("wupin_id");
+                String user = rs.getString("user");
+                String comment = rs.getString("comment");
+                Integer date = rs.getInt("date");
+                String newDate = DateUtil.timeStampToString(date);
+                list.add(new Comment(id,wupinId,user,comment,newDate));
+            }
+            return list;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if(rs!=null)
+                    rs.close();
+                if(ps!=null)
+                    ps.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+            JdbcUtil.close();
+        }
+        return null;
+    }
+
+    @Override
+    public Integer deleteWupinAllComment(Integer wupinId) {
+        String sql="delete from comment where wupin_id=?";
+        PreparedStatement ps=null;
+        try {
+            Connection connection = JdbcUtil.getConnection();
+            ps = connection.prepareStatement(sql);
+            ps.setInt(1,wupinId);
+            Integer i = ps.executeUpdate();
+            return i;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }finally {
+            try {
+                if(ps!=null)
+                    ps.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+            JdbcUtil.close();
+        }
+        return 0;
+    }
 }

@@ -13,8 +13,13 @@ import java.util.List;
  * Description: No Description
  */
 public interface CommentDao {
-    List<Comment> findAll(Integer wupinId);
-    Integer add(Comment comment);
-    Integer report(Integer id);
-    Integer deleteOne(Integer id);
+    public List<Comment> findAll(Integer wupinId);
+    public Integer add(Comment comment);
+    public Integer report(Integer id);
+    public Integer deleteOne(Integer id);
+
+
+    public List<Comment> findAll();
+    public List<Comment> findReport();
+    public Integer deleteWupinAllComment(Integer wupinId);
 }

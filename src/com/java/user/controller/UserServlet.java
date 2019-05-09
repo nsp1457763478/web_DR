@@ -44,14 +44,29 @@ public class UserServlet extends HttpServlet {
     protected void findOne(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String username = request.getParameter("username");
         User user = service.findOne(username);
+        Integer u_id = user.getU_id();
+        String name = user.getName();
+        long id = user.getId();
+        String sex = user.getSex();
+        long phone = user.getPhone();
+        String email = user.getEmail();
+        String address = user.getAddress();
         String password = user.getPassword();
         String psd = JiaMi.base64Decode(password);
-        user.setPassword(psd);
-        request.setAttribute("user",user);
-        request.getRequestDispatcher("/frontpage/self_info.jsp").forward(request,response);
+        request.setAttribute("u_id",u_id);
+        request.setAttribute("username",username);
+        request.setAttribute("name",name);
+        request.setAttribute("id",id);
+        request.setAttribute("sex",sex);
+        request.setAttribute("phone",phone);
+        request.setAttribute("email",email);
+        request.setAttribute("address",address);
+        request.setAttribute("password",psd);
+        request.getRequestDispatcher("frontpage/self_info.jsp").forward(request,response);
     }
 
     protected void update(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String u_id = request.getParameter("u_id");
         String username = request.getParameter("username");
         String name = request.getParameter("name");
         String id = request.getParameter("id");
@@ -76,6 +91,7 @@ public class UserServlet extends HttpServlet {
             response.getWriter().print("收货地址不能为空!");
         }else{
             User user = new User();
+            user.setU_id(Integer.parseInt(u_id));
             user.setUsername(username);
             user.setName(name);
             user.setId(Long.parseLong(id));
@@ -98,15 +114,14 @@ public class UserServlet extends HttpServlet {
         pageBean.setPageCount(Integer.parseInt(limit));
         pageBean.setCount(service.findAll().size());
         List<User> users = service.queryPage(pageBean);
-        System.out.println(users);
-        JSONObject array = JsonUtil.getJsonObject(users, pageBean);
-        response.getWriter().print(array);
+        JSONObject table = JsonUtil.getJsonObject(users, pageBean);
+        response.getWriter().print(table);
     }
     protected void queryOne(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String uid = request.getParameter("u_id");
         User users = service.queryOne(Integer.parseInt(uid));
         request.setAttribute("users",users);
-        request.getRequestDispatcher("/user/xiangqing.jsp").forward(request,response);
+        request.getRequestDispatcher("user/xiangqing.jsp").forward(request,response);
     }
     protected void delete(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String uid= request.getParameter("u_id");
@@ -115,7 +130,6 @@ public class UserServlet extends HttpServlet {
             linkId= Integer.parseInt(uid);
         }
         int i = service.delete(linkId);
-        System.out.println(i);
         response.getWriter().print(""+i);
     }
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

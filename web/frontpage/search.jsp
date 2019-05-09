@@ -39,7 +39,7 @@
         <c:if test="${size!=0}">
             <c:forEach items="${searchList}" var="list">
                 <div class="mingxing fl mb20" style="border:2px solid #fff;width:230px;cursor:pointer;" onmouseout="this.style.border='2px solid #fff'" onmousemove="this.style.border='2px solid red'">
-                    <div class="sub_mingxing"><a href="<%=request.getContextPath()%>/ershouServlet?action=queryDetail&id=${list.id}"><img src="<%=request.getContextPath()%>/tesiro/diamond/${list.image}" height="175px" width="175px" alt=""></a></div>
+                    <div class="sub_mingxing"><a href="<%=request.getContextPath()%>/ershouServlet?action=queryDetail&id=${list.id}"><img src="<%=request.getContextPath()%>/image/${list.image}" height="175px" width="175px" alt=""></a></div>
                     <div class="pinpai"><a href="<%=request.getContextPath()%>/ershouServlet?action=queryDetail&id=${list.id}">${list.title}</a></div>
                     <div class="youhui">${list.introduce}</div>
                     <div class="jiage">${list.price}元</div>

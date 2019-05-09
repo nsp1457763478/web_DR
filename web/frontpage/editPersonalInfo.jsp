@@ -6,8 +6,8 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ include file="/common/info.jsp" %>
-<%@ include file="../common/tanchuceng.jsp"%>
+<%@include file="../common/info.jsp"%>
+<%@include file="../common/tanchuceng.jsp"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -20,29 +20,47 @@
 <div class="x-body">
     <form class="layui-form">
         <div class="layui-form-item">
-            <label for="linkId" class="layui-form-label">
-                <span class="x-red"></span>
+            <label for="u_id" class="layui-form-label">
+                <span class="x-red">*</span>用户id
             </label>
             <div class="layui-input-inline">
-                <input value="" type="hidden" id="linkId" name="linkId" required="" lay-verify=""
+                <input readonly="readonly" value="" type="text" id="u_id" name="u_id"
+                       autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label for="username" class="layui-form-label">
+                <span class="x-red">*</span>用户名
+            </label>
+            <div class="layui-input-inline">
+                <input value="" type="text" id="username" name="username"
                        autocomplete="off" class="layui-input">
             </div>
         </div>
         <div class="layui-form-item">
             <label for="name" class="layui-form-label">
-                <span class="x-red">*</span>用户名
+                <span class="x-red">*</span>真实姓名
             </label>
             <div class="layui-input-inline">
-                <input readonly="readonly" value="" type="text" id="name" name="name"
+                <input value="" type="text" id="name" name="name"
                        autocomplete="off" class="layui-input">
             </div>
         </div>
         <div class="layui-form-item">
-            <label for="password" class="layui-form-label">
-                <span class="x-red">*</span>密码
+            <label for="id" class="layui-form-label">
+                <span class="x-red">*</span>身份证号
             </label>
             <div class="layui-input-inline">
-                <input value="" type="text" id="password" name="password"
+                <input value="" type="text" id="id" name="id"
+                       autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label for="sex" class="layui-form-label">
+                <span class="x-red">*</span>性别
+            </label>
+            <div class="layui-input-inline">
+                <input value="" type="text" id="sex" name="sex"
                        autocomplete="off" class="layui-input">
             </div>
         </div>
@@ -56,39 +74,71 @@
             </div>
         </div>
         <div class="layui-form-item">
-            <label for="addr" class="layui-form-label">
+            <label for="email" class="layui-form-label">
+                <span class="x-red">*</span>邮箱
+            </label>
+            <div class="layui-input-inline">
+                <input value="" type="text" id="email" name="email"
+                       autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label for="address" class="layui-form-label">
                 <span class="x-red">*</span>收货地址
             </label>
             <div class="layui-input-inline">
-                <input value="" type="text" id="addr" name="addr"
+                <input value="" type="text" id="address" name="address"
+                       autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label for="password" class="layui-form-label">
+                <span class="x-red">*</span>密码
+            </label>
+            <div class="layui-input-inline">
+                <input value="" type="text" id="password" name="password"
                        autocomplete="off" class="layui-input">
             </div>
         </div>
         <div class="layui-form-item">
             <label  class="layui-form-label">
             </label>
-            <button  class="layui-btn" lay-filter="update" lay-submit="">
+            <button  class="layui-btn" lay-filter="update" lay-submit="" style="margin-left: 50px">
                 更新
             </button>
         </div>
     </form>
 </div>
 <script>
+    var u_id;
     var username;
+    var name;
+    var id;
+    var sex;
     var phone;
+    var email;
+    var address;
     var password;
-    var addr;
     function child(user) {
         //在这里你可以写你的jquery $(function(){ })   等等操作
-        id = user.id;
+        u_id=user.u_id;
         username = user.username;
+        name=user.name;
+        id = user.id;
+        sex = user.sex;
         phone = user.phone;
+        email = user.email;
+        address = user.address;
         password = user.password;
-        addr = user.addr;
-        $("#name").attr("value", username);
+        $("#u_id").attr("value", u_id);
+        $("#username").attr("value", username);
+        $("#name").attr("value", name);
+        $("#id").attr("value", id);
+        $("#sex").attr("value", sex);
         $("#phone").attr("value", phone);
+        $("#email").attr("value", email);
+        $("#address").attr("value", address);
         $("#password").attr("value", password);
-        $("#addr").attr("value", addr);
     }
     layui.use(['form','layer'], function(){
         $ = layui.jquery;
@@ -97,18 +147,28 @@
 
         //监听提交
         form.on('submit(update)', function(){
-            password=document.getElementById("password").value;
+            username=document.getElementById("username").value;
+            name=document.getElementById("name").value;
+            id=document.getElementById("id").value;
+            sex=document.getElementById("sex").value;
             phone=document.getElementById("phone").value;
-            addr=document.getElementById("addr").value;
+            email=document.getElementById("email").value;
+            address=document.getElementById("address").value;
+            password=document.getElementById("password").value;
             $.ajax({
                 type:"post",
                 url:"<%=request.getContextPath()%>/UserServlet",
                 data:{
                     "action":"update",
+                    "u_id":u_id,
                     "username":username,
-                    "password":password,
+                    "name":name,
+                    "id":id,
+                    "sex":sex,
                     "phone":phone,
-                    "addr":addr,
+                    "email":email,
+                    "address":address,
+                    "password":password,
                 },
                 success:function (msg) {
                     if(msg==="更新资料成功!"){

@@ -35,7 +35,6 @@ public class OfficeServlet extends HttpServlet {
         request.setCharacterEncoding("utf-8");
         response.setContentType("text/html;charset=utf-8");
         String action = request.getParameter("action");
-        System.out.println(action);
         if ("getAllOfficeByPage".equals(action)) {
             getAllOfficeByPage(request, response);
         } else if ("addOffice".equals(action)) {
@@ -147,14 +146,14 @@ public class OfficeServlet extends HttpServlet {
                     response.getWriter().print(202);
                 } else {
                     if (office.getPassword().equals(str)) {
-                        System.out.println("职员 " + officeName + " 登录成功");
+                        //System.out.println("职员 " + officeName + " 登录成功");
                         // 登陆成功
                         HttpSession session = request.getSession();
                         session.setAttribute("officeName", officeName);
                         session.setAttribute("office", office);
                         MenuService menuService = new MenuService();
                         List<Menu> menuList = menuService.findMenuByOfficeId(office.getOfficeId());
-                        System.out.println(menuList.toString());
+                        //System.out.println(menuList.toString());
                         request.getSession().setAttribute("menus", menuList);
                         response.getWriter().print(200);
                     } else {

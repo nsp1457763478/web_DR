@@ -15,18 +15,18 @@
     <link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/static/css/login1.css">
 </head>
 <script type="text/javascript">
-        function changeThis(){
-            //再访问一次验证码的Servlet
-            //把img的src属性
-            var imgObject=$("#verifyCode");
-            imgObject.attr("src","${pageContext.request.contextPath}/getCode"+newUrl());
-        }
-        function newUrl(){
-            var timestamp = (new Date()).valueOf();
-            var url = "?timestamp="+timestamp;
-            console.log(456);
-            return url;
-        }
+    function changeThis(){
+        //再访问一次验证码的Servlet
+        //把img的src属性
+        var imgObject=$("#verifyCode");
+        imgObject.attr("src","${pageContext.request.contextPath}/getCode"+newUrl());
+    }
+    function newUrl(){
+        var timestamp = (new Date()).valueOf();
+        var url = "?timestamp="+timestamp;
+        console.log(456);
+        return url;
+    }
 
 </script>
 <body>
@@ -45,11 +45,14 @@
             </div>
             <div class="regist_main center">
                 <div class="username">用&nbsp;&nbsp;户&nbsp;&nbsp;名:&nbsp;&nbsp;<input class="shurukuang" type="text" id="username" name="username" placeholder="请输入你的用户名"/><span>请不要输入汉字</span></div>
+                <div class="username">真实姓名:&nbsp;&nbsp;<input class="shurukuang" type="text" id="name" name="name" placeholder="请填写真实姓名"/><span>快去寻找你的另一半吧！</span></div>
+                <div class="username">身&nbsp;&nbsp;份&nbsp;&nbsp;证:&nbsp;&nbsp;<input class="shurukuang" type="text" id="id" name="id" placeholder="请填写正确的身份证号"/><span></span></div>
+                <div class="username">性&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;别:&nbsp;&nbsp;<input class="shurukuang" type="text" id="sex" name="sex" placeholder="男或女"/><span></span></div>
+                <div class="username">手&nbsp;&nbsp;机&nbsp;&nbsp;号:&nbsp;&nbsp;<input class="shurukuang" type="text" id="phone" name="phone" placeholder="请填写正确的手机号"/><span>填写下手机号吧，方便我们联系您！</span></div>
+                <div class="username">邮&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;箱:&nbsp;&nbsp;<input class="shurukuang" type="text" id="email" name="email" placeholder="请填写正确的邮箱"/><span>填写下邮箱吧，方便密码找回！</span></div>
+                <div class="username">地&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;址:&nbsp;&nbsp;<input class="shurukuang" type="text" id="address" name="address" placeholder="请填写正确的地址"/><span></span></div>
                 <div class="username">密&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;码:&nbsp;&nbsp;<input class="shurukuang" type="password" id="password" name="password" placeholder="请输入你的密码"/><span>密码6-18位，数字，字母，字符至少包含两种</span></div>
-
                 <div class="username">确认密码:&nbsp;&nbsp;<input class="shurukuang" type="password" id="repassword" name="repassword" placeholder="请确认你的密码"/><span>两次密码要输入一致哦</span></div>
-                <div class="username">手&nbsp;&nbsp;机&nbsp;&nbsp;号:&nbsp;&nbsp;<input class="shurukuang" type="text" id="tel" name="tel" placeholder="请填写正确的手机号"/><span>填写下手机号吧，方便我们联系您！</span></div>
-                <div class="username">真实姓名:<input class="shurukuang" type="text" id="college" name="college" placeholder="请填写真实姓名"/><span>快去寻找你的另一半吧！</span></div>
                 <div class="username">
                     <div class="left fl">验&nbsp;&nbsp;证&nbsp;&nbsp;码:&nbsp;&nbsp;<input class="yanzhengma" type="text" id="code" name="code" placeholder="请输入验证码"/></div>
                     <div class="right fl"><img id="verifyCode" onclick="changeThis()" src="${pageContext.request.contextPath}/getCode"></div>
@@ -66,10 +69,14 @@
 <script type="text/javascript">
     function register() {
         var username=document.getElementById("username").value;
+        var name=document.getElementById("name").value;
+        var id=document.getElementById("id").value;
+        var sex=document.getElementById("sex").value;
+        var phone=document.getElementById("phone").value;
+        var email=document.getElementById("email").value;
+        var address=document.getElementById("address").value;
         var password=document.getElementById("password").value;
         var repassword=document.getElementById("repassword").value;
-        var tel=document.getElementById("tel").value;
-        var college=document.getElementById("college").value;
         var code=document.getElementById("code").value;
         $.ajax({
             type:"post",
@@ -77,24 +84,29 @@
             data:{
                 "action":"register",
                 "username":username,
+                "id":id,
+                "name":name,
+                "sex":sex,
+                "phone":phone,
+                "email":email,
+                "address":address,
                 "password":password,
                 "repassword":repassword,
-                "tel":tel,
-                "college":college,
                 "code":code
             },
             dateType:"text",
             success:function (msg) {
-                    if("注册成功！"==msg){
-                        $.sendSuccessToTop(msg, 3000, function() {
-                            console.log('sendSuccessToTop closed');
-                        });
-                        window.setTimeout("window.location='login.jsp'",3000);
-                    }else{
-                        $.sendWarning(msg, 3000, function() {
-                            console.log('sendWarning closed');
-                        });
-                    }
+                if("注册成功!"===msg){
+                    $.sendSuccessToTop(msg, 3000, function() {
+                        console.log('sendSuccessToTop closed');
+                    });
+                    window.setTimeout("window.location='login.jsp'",3000);
+
+                }else{
+                    $.sendWarning(msg, 3000, function() {
+                        console.log('sendWarning closed');
+                    });
+                }
             }
         });
     }

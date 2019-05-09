@@ -3,6 +3,8 @@ package com.java.order.servlet;
 import com.alibaba.fastjson.JSONObject;
 import com.java.order.entity.Orderlist;
 import com.java.order.service.OrderlistService;
+import com.java.util.JsonUtil;
+import com.java.util.PageBean;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -34,6 +36,8 @@ public class OrderlistServlet extends HttpServlet {
             findOne(request,response);
         }else if("deleteOne".equals(action)){
             deleteOne(request,response);
+        }else if("findAllNoUser".equals(action)){
+            findAllNoUser(request,response);
         }
     }
 
@@ -55,7 +59,6 @@ public class OrderlistServlet extends HttpServlet {
         request.setAttribute("index",Integer.parseInt(index));
         request.getRequestDispatcher("frontpage/dingdanzhongxin.jsp").forward(request,response);
     }
-
     private void findOne(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String id = request.getParameter("id");
         Orderlist orderlist = orderlistService.findOne(Integer.parseInt(id));
@@ -74,7 +77,26 @@ public class OrderlistServlet extends HttpServlet {
             response.getWriter().print("删除失败,订单可能不存在!");
         }
     }
+    private void findAllNoUser(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String page = request.getParameter("page");
+        System.out.println(page+"==============page");
+        String limit = request.getParameter("limit");
 
+        System.out.println("limit=-============"+limit);
+
+        PageBean pageBean = new PageBean();
+        pageBean.setPageIndex(Integer.parseInt(page));
+        pageBean.setPageCount(Integer.parseInt(limit));
+        pageBean.setCount(orderlistService.findAll().size());
+        List<Orderlist> orderlists = orderlistService.queryPage(pageBean);
+        JSONObject table = JsonUtil.getJsonObject(orderlists, pageBean);
+        response.getWriter().print(table);
+
+
+       /* List<Orderlist> all = orderlistService.findAll();
+        JSONObject jsonObject = JsonUtil1.getJsonObject(all);*/
+        //response.getWriter().print(jsonObject);
+    }
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         doPost(request,response);
     }

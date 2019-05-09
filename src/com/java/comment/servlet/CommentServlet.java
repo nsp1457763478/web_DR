@@ -1,9 +1,11 @@
 package com.java.comment.servlet;
 
 
+import com.alibaba.fastjson.JSONObject;
 import com.java.comment.entity.Comment;
 import com.java.comment.service.CommentService;
 import com.java.util.DateUtil;
+import com.java.util.JsonUtil1;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -13,6 +15,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created with IntelliJ IDEA.
@@ -35,6 +38,8 @@ public class CommentServlet extends HttpServlet {
             report(request,response);
         }else if("deleteOne".equals(action)){
             deleteOne(request,response);
+        }else if("findAll".equals(action)){
+            findAll(request,response);
         }
     }
 
@@ -68,7 +73,11 @@ public class CommentServlet extends HttpServlet {
             response.getWriter().print("删除成功!");
         }
     }
-
+    private void findAll(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        List<Comment> all = commentService.findAll();
+        JSONObject jsonObject = JsonUtil1.getJsonObject(all);
+        response.getWriter().print(jsonObject);
+    }
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         doPost(request,response);
     }

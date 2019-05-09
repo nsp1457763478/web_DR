@@ -13,11 +13,11 @@ import java.util.List;
  * Description: No Description
  */
 public interface InformationDao {
-    List<Information> findAll(Integer uId, Integer index, Integer pageCount);
-    Integer add(Information information);
-    Integer update(Integer id);
-    Integer delete(Integer id);
-    Information findOne(Integer id);
-    Integer deleteAll(Integer uId);
-    Integer getCount();
+    public List<Information> findAll(Integer uId, Integer index, Integer pageCount);
+    public Integer add(Information information);
+    public Integer update(Integer id);
+    public Integer delete(Integer id);
+    public Information findOne(Integer id);
+    public Integer deleteAll(Integer uId);
+    public Integer getCount(Integer uId);
 }

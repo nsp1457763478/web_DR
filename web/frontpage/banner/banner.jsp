@@ -32,9 +32,6 @@
         <li class="prev"></li>
         <li class="next"></li>
     </ul>
-    <div class="shutter-desc">
-        <p>Iron Man</p>
-    </div>
 </div>
 
 <script src="<%=request.getContextPath()%>/static/js/jquery.min.js"></script>

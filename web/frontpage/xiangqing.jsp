@@ -12,7 +12,7 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>二货商城-商品详情</title>
+    <title>DR-商品详情</title>
     <link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/static/css/style.css">
     <link rel="icon" href="<%=request.getContextPath()%>/static/img/logo2.ico" type="image/x-icon"/>
     <link type="text/css" rel="stylesheet" href="<%=request.getContextPath()%>/static/css/zoomy0.5.css" />
@@ -32,24 +32,24 @@
 </div>
 <input hidden="hidden" id="ershouwupin_id" value="${requestScope.ershouwupin.id}">
 <div class="jieshao mt20 w">
-    <div class="left fl" style="height:380px;width: 380px"><a class="zoom" href="<%=request.getContextPath()%>/static/tesiro/diamond/${requestScope.ershouwupin.image}"><img src="<%=request.getContextPath()%>/tesiro/diamond/${ershouwupin.image}" height="380px" width="380px"></a>
+    <div class="left fl" style="height:380px;width: 380px"><a class="zoom" href="<%=request.getContextPath()%>/image/${requestScope.ershouwupin.image}"><img src="<%=request.getContextPath()%>/image/${ershouwupin.image}" height="540px" width="540px"></a>
         <div style="margin-left: 120px;margin-top: 20px">移至此处观看大图</div>
     </div>
     <div class="right fr">
         <div class="h3 ml20 mt20">${requestScope.ershouwupin.title}</div>
         <div class="jianjie mr40 ml20 mt10">${requestScope.ershouwupin.introduce}</div>
-        <div class="ft20 ml20 mt20">交易方式</div>
+        <div class="ft20 ml20 mt20">库存</div>
         <div class="xzbb ml20 mt10">
-            &nbsp;${requestScope.ershouwupin.deal}
+            &nbsp;${requestScope.ershouwupin.stock}
             <div class="clear"></div>
         </div>
-        <div class="ft20 ml20 mt20">交易地点</div>
+        <div class="ft20 ml20 mt20">分类</div>
         <div class="xzbb ml20 mt10">
-            ${requestScope.ershouwupin.where}
+            ${requestScope.ershouwupin.type}
         </div>
         <div class="xqxq mt20 ml20">
             <div class="top1 mt10">
-                <div class="left1 fl">卖家&nbsp;&nbsp;&nbsp;&nbsp;${requestScope.ershouwupin.sellUser}</div>
+                <div class="left1 fl">卖家&nbsp;&nbsp;&nbsp;&nbsp;${requestScope.ershouwupin.office_name}</div>
                 <div class="right1 fr">上架时间:${requestScope.ershouwupin.date}</div>
                 <div class="clear"></div>
             </div>

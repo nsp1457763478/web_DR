@@ -98,7 +98,7 @@ public class CheckCode extends HttpServlet {
                 String rePassWord = request.getParameter("repassword");
                 //正则判断用户名是否含汉字;
                 Pattern pattern = Pattern.compile("[\u4e00-\u9fa5]");
-                Matcher matcher = pattern.matcher(userName);
+                Matcher matcher = pattern.matcher(username);
                 boolean isMatch = matcher.find();
                 //判断密码是否小于六位
                 int passwordLength = password.length();
@@ -123,11 +123,11 @@ public class CheckCode extends HttpServlet {
                         //给用户发送祝贺注册之类的通知
                         //通过用户名来确定给谁发通知
                         User newUser = userService.findOne(userName);
-                        String information="恭喜您!非常幸运成为二货大学生二手交易平台的会员，请尽情享受您的购物之旅吧!";
+                        String information="恭喜您，成为了通灵珠宝 DR旗舰店的会员!";
                         String newDate= DateUtil.dateToString(new Date(System.currentTimeMillis()));
                         //发送通知
                         Integer add = informationService.add(new Information(newUser.getU_id(),information,"未读", newDate));
-                        response.getWriter().print("注册成功！");
+                        response.getWriter().print("注册成功!");
                     }
                 }
             }
@@ -142,7 +142,7 @@ public class CheckCode extends HttpServlet {
         HttpSession session = request.getSession();
         session.removeAttribute("username");
         session.removeAttribute("password");
-        response.sendRedirect("foreground/login.jsp");
+        response.sendRedirect("frontpage/login.jsp");
     }
 
     public boolean yanzhengma(HttpServletRequest request, HttpServletResponse response){

@@ -19,6 +19,12 @@ public class CommentService {
     public List<Comment> findAll(Integer wupinId){
         return commentDao.findAll(wupinId);
     }
+    public List<Comment> findAll(){
+        return commentDao.findAll();
+    }
+    public List<Comment> findReport(){
+        return commentDao.findReport();
+    }
     public int add(Comment comment){
         return commentDao.add(comment);
     }
@@ -27,5 +33,8 @@ public class CommentService {
     }
     public Integer deleteOne(Integer id){
         return commentDao.deleteOne(id);
+    }
+    public Integer deleteWupinAllComment(Integer wupinId){
+        return commentDao.deleteWupinAllComment(wupinId);
     }
 }
